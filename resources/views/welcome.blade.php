@@ -56,7 +56,7 @@
             }
 
             .title {
-                font-size: 15vw;
+                font-size: 12.5vw;
             }
 
             .links > a {
@@ -94,6 +94,7 @@
                 <div class="title m-b-md">
                     OnlineShiurim
                 </div>
+
 
                 <div class="links">
                     <a href="https://goo.gl/U4pTR1">Deutsch</a>
