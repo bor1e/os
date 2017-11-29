@@ -18,17 +18,9 @@
   </style>
 </head>
 <body>
-@include('nav')
-<!--div class="section">
-  <div class="container">
-    <figure class="is-pulled-right">
-    <img  src="/images/logo_url.png" style="height:5rem" alt="OnlineShiurim Logo with Url" />
-    </figure>
-  </div>
-</div-->
+  @include('nav')
 
-
-@yield('main')
+  @yield('main')
 
 </body>
 </html>

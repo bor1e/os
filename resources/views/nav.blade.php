@@ -46,10 +46,9 @@
           <p class="control">
             <a class="button is-primary" href="https://goo.gl/U4pTR1">
               <span class="icon">
-<i class="fa fa-sign-in"></i>
+                <i class="fa fa-sign-in"></i>
               </span>
               <span>Sign Up</span>
-
             </a>
           </p>
         </div>

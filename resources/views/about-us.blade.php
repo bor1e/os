@@ -10,7 +10,6 @@
           <div class="content">
             <p class="title">How it works</p>
             <p class="subtitle">With even more content</p>
-
               <p>
                 Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
                 diam nonumy eirmod tempor invidunt ut labore et dolore magna
@@ -18,7 +17,6 @@
                 justo duo dolores et ea rebum. Stet clita kasd gubergren, no
                 sea takimata sanctus est Lorem ipsum dolor sit amet.  Lorem
               </p>
-
               <p>
                 ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
                 nonumy eirmod tempor invidunt ut labore et dolore magna
@@ -26,7 +24,6 @@
                 justo duo dolores et ea rebum. Stet clita kasd gubergren, no
                 sea takimata sanctus est Lorem ipsum dolor sit amet.
               </p>
-
           </div>
         </article>
       </div>
@@ -78,34 +75,30 @@
           <article class="tile is-child box">
             <p class="title">Statistics</p>
             <p class="subtitle">last updated November 29, 2017</p>
-            <div class="content">
-              <div class="level is-mobile">
-                <div class="level-item has-text-centered">
-                  <div>
-                    <p class="heading">Participants</p>
-                    <p class="title">
-                      <i class="fa fa-users" aria-hidden="true"></i>
-                      5432
-                    </p>
-                  </div>
+            <div class="columns">
+              <div class="column has-text-centered">
+                <p class="heading">Participants</p>
+                <p class="title">
+                  <i class="fa fa-users" aria-hidden="true"></i>
+                  5432
+                </p>
+              </div>
+              <div class="column has-text-centered">
+                <div>
+                  <p class="heading">Classes</p>
+                  <p class="title">
+                    <i class="fa fa-video-camera" aria-hidden="true"></i>
+                    456
+                  </p>
                 </div>
-                <div class="level-item has-text-centered">
-                  <div>
-                    <p class="heading">Classes</p>
-                    <p class="title">
-                      <i class="fa fa-video-camera" aria-hidden="true"></i>
-                      456
-                    </p>
-                  </div>
-                </div>
-                <div class="level-item has-text-centered">
-                  <div>
-                    <p class="heading">Teachers</p>
-                    <p class="title">
-                      <i class="fa fa-graduation-cap" aria-hidden="true"></i>
-                      54
-                    </p>
-                  </div>
+              </div>
+              <div class="column has-text-centered">
+                <div>
+                  <p class="heading">Teachers</p>
+                  <p class="title">
+                    <i class="fa fa-graduation-cap" aria-hidden="true"></i>
+                    54
+                  </p>
                 </div>
               </div>
             </div>

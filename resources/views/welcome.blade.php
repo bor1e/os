@@ -117,7 +117,6 @@
                 </div>
 
                 <div class="donation">
-
                 </div>
             </div>
 
