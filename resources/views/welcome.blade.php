@@ -1,11 +1,8 @@
 <!doctype html>
 <html lang="{{ app()->getLocale() }}">
     <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>OnlineShiurim</title>
+        @include('meta')
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
@@ -72,6 +69,23 @@
             .m-b-md {
                 margin-bottom: 30px;
             }
+
+            footer {
+              position: absolute;
+              left: 18px;
+              bottom: 18px;
+            }
+
+            footer > a {
+                 color: #636b6f;
+                 padding: 0 20px;
+                 font-size: 10px;
+                 font-weight: 600;
+                 letter-spacing: .1rem;
+                 text-decoration: none;
+                 text-transform: uppercase;
+             }
+            }
         </style>
     </head>
     <body>
@@ -82,8 +96,8 @@
             @if (Route::has('login'))
                 <div class="top-right links">
                     @auth
-                        <a href="{{ url('/home') }}">Home</a>
                     @else
+                      <a href="{{ url('/home') }}">Home</a>
                         <a href="{{ route('login') }}">Login</a>
                         <a href="{{ route('register') }}">Register</a>
                     @endauth
@@ -101,7 +115,18 @@
                     <a href="https://goo.gl/G8mC94">Русский</a>
                     <a href="https://goo.gl/Rv3AJE">English</a>
                 </div>
+
+                <div class="donation">
+
+                </div>
             </div>
+
+            <footer>
+              <a href="/about-us#contact">Contact Us</a>
+              <a href="/about-us">About Us</a>
+              <a href="/faq">FAQ</a>
+              <a href="/imprint">Imprint</a>
+            </footer>
         </div>
     </body>
 </html>

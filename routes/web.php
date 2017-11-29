@@ -12,5 +12,22 @@
 */
 
 Route::get('/', function () {
+    return view('alt');
+});
+
+Route::get('/alt', function () {
     return view('welcome');
+});
+
+
+Route::get('/faq', function () {
+    return view('faq');
+});
+
+Route::get('/about-us', function () {
+    return view('about-us');
+});
+
+Route::get('/imprint', function () {
+    return view('imprint');
 });
