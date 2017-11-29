@@ -3,13 +3,13 @@
     <a class="navbar-item" href="http://beta.online-shiurim.org">
       <img src="/images/logo.png" alt="OnlineShiurim: Live Shiurim, join experts from your living room">
     </a>
-    <div class="navbar-item is-hidden-desktop">
-            בס"ד
-    </div>
     <div class="navbar-burger burger" data-target="navbarItems">
       <span></span>
       <span></span>
       <span></span>
+    </div>
+    <div class="navbar-item is-hidden-desktop">
+            בס"ד
     </div>
   </div>
 
@@ -27,7 +27,6 @@
       <a class="navbar-item" href="/alt">
         Alternative
       </a>
-      </div>
     </div>
 
     <div class="navbar-end">
@@ -58,4 +57,5 @@
       </div>
     </div>
   </div>
+
 </nav>
