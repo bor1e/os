@@ -58,13 +58,13 @@
             <a href="/faq">FAQ</a>
           </div>
           <div class="column is-1">
-            <a href="/imprint">Imprint</a>
+            <a href="#">Donate</a>
           </div>
           <div class="column is-2">
             <a href="/about-us#contact">Contact Us</a>
           </div>
           <div class="column is-1">
-            <a href="#">Donate</a>
+            <a href="/imprint">Imprint</a>
           </div>
         </div>
     </div>
