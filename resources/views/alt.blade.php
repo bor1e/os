@@ -19,14 +19,27 @@
 <body>
 
 <section class="hero is-primary is-fullheight">
-  <!-- Hero head: will stick at the top -->
+
   <div class="hero-head">
     @include('nav-alt')
   </div>
 
-  <!-- Hero content: will be in the middle -->
+
   <div class="hero-body">
     <div class="container has-text-centered">
+      @if (session('status'))
+        <div id="alert" class="notification is-info">
+          <button class="delete" onclick="removeAlert()"></button>
+          {{ session('status') }}
+        </div>
+        <script type="text/javascript">
+        function removeAlert()
+        {
+          var elem = document.getElementById("alert");
+          elem.parentNode.removeChild(elem);
+        }
+        </script>
+      @endif
       <div class="columns is-mobile">
         <div class="column is-half is-offset-one-quarter">
           <figure class="image">
@@ -49,25 +62,28 @@
 
 
   <div class="hero-foot">
-      <div class="container">
-        <div class="columns has-text-centered">
-          <div class="column is-2">
-            <a href="/about-us">About Us</a>
-          </div>
-          <div class="column is-1">
-            <a href="/faq">FAQ</a>
-          </div>
-          <div class="column is-1">
-            <a href="#">Donate</a>
-          </div>
-          <div class="column is-2">
-            <a href="/about-us#contact">Contact Us</a>
-          </div>
-          <div class="column is-1">
-            <a href="/imprint">Imprint</a>
-          </div>
+    <nav class="tabs is-boxed is-fullwidth">
+        <div class="container">
+          <div class="columns has-text-centered">
+            <div class="column is-2">
+              <a href="/about-us">About Us</a>
+            </div>
+            <div class="column is-1">
+              <a href="/faq">FAQ</a>
+            </div>
+            <div class="column is-1">
+              <a href="#">Donate</a>
+            </div>
+            <div class="column is-2">
+              <a href="/about-us#contact">Contact Us</a>
+            </div>
+            <div class="column is-1">
+              <a href="/imprint">Imprint</a>
+            </div>
         </div>
-    </div>
+      </div>
+
+    </nav>
   </div>
 </section>
 </body>
