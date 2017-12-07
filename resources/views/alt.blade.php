@@ -66,7 +66,7 @@
         <div class="container">
           <div class="columns has-text-centered">
             <div class="column is-2">
-              <a href="/about-us">About Us</a>
+              <a href="/about-us">{{__('test.about_us')}}</a>
             </div>
             <div class="column is-1">
               <a href="/faq">FAQ</a>

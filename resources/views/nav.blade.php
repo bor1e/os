@@ -16,7 +16,7 @@
   <div id="navbarItems" class="navbar-menu">
     <div class="navbar-start">
       <a class="navbar-item" href="/about-us">
-        About Us
+        {{__('test.about_us')}}
       </a>
       <a class="navbar-item" href="/faq">
         FAQ

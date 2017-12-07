@@ -78,7 +78,7 @@ return [
     |
     */
 
-    'locale' => 'en',
+    'locale' => 'de',
 
     /*
     |--------------------------------------------------------------------------
@@ -168,6 +168,9 @@ return [
          * Package Service Providers...
          */
          Greggilbert\Recaptcha\RecaptchaServiceProvider::class,
+         Mcamara\LaravelLocalization\LaravelLocalizationServiceProvider::class,
+         Czim\LaravelLocalizationRouteCache\LaravelLocalizationServiceProvider::class,
+         Barryvdh\TranslationManager\ManagerServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -229,6 +232,8 @@ return [
 
         //plugins
         'Recaptcha' => Greggilbert\Recaptcha\Facades\Recaptcha::class,
+        'LaravelLocalization' => Mcamara\LaravelLocalization\Facades\LaravelLocalization::class,
+
     ],
 
 ];
