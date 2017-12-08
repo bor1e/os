@@ -32,3 +32,7 @@ Route::get('/imprint', function () {
 });
 
 Route::post('contact', 'ContactForm@send')->name('contact');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
