@@ -32,3 +32,10 @@ Route::get('/imprint', function () {
 });
 
 Route::post('contact', 'ContactForm@send')->name('contact');
+
+Route::get('/courses', 'CoursesController@index');
+Route::get('/courses/{course}', 'CoursesController@show');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
