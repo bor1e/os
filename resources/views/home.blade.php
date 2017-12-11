@@ -14,7 +14,15 @@
                         </div>
                     @endif
 
-                    You are logged in!
+                    You are logged in!<br>
+                    <a href="/translations">Translations</a>
+
+                    @if (Auth::user()->isAdmin())
+                        <br><h1>ADMIN!</h1>
+                    {{--    <a href="/translations">Translations</a>--}}
+                    @endif
+
+
                 </div>
             </div>
         </div>

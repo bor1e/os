@@ -41,6 +41,24 @@ class User extends Authenticatable
       return false;
     }
 
+    public function isAdmin()
+    {
+      foreach ($this->roles as $role) {
+        if ($role->name == 'admin') return true;
+      }
+
+      return false;
+    }
+
+    public function isTeacher()
+    {
+      foreach ($this->roles as $role) {
+        if ($role->name == 'teacher') return true;
+      }
+
+      return false;
+    }
+
     public function assignRole($role)
     {
       return $this->roles()->attach($role);

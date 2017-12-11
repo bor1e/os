@@ -168,6 +168,7 @@ return [
          * Package Service Providers...
          */
          Greggilbert\Recaptcha\RecaptchaServiceProvider::class,
+         Barryvdh\TranslationManager\ManagerServiceProvider::class,
 
         /*
          * Application Service Providers...
