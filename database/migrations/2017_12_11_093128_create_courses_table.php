@@ -22,6 +22,7 @@ class CreateCoursesTable extends Migration
           $table->string('description', 160);
           $table->text('body');
           $table->text('slug');
+          $table->integer('g2m_id');
           $table->integer('cycle')->default(0);
           $table->timestamps();
         });

@@ -35,6 +35,7 @@ $factory->define(App\Course::class, function (Faker $faker) {
         'description' => $faker->text(160),
         'body' => $faker->text(500),
         'slug' => $faker->slug,
+        'g2m_id' => $faker->biasedNumberBetween(100000000, 999999999),
         'cycle' => $faker->randomElement(array(0,1,2)),
       ];
 });
@@ -42,13 +43,15 @@ $factory->define(App\Course::class, function (Faker $faker) {
 $factory->define(App\Teacher::class, function (Faker $faker) {
 
     return [
-        'user_id' => function () {
-          return factory('App\User')->create()->id;
-        },
+        'city' => $faker->city,
         'course_id' => function () {
           return factory('App\Course')->create()->id;
         },
-        'city' => $faker->city,
+        'facebook' => $faker->userName,
+        'title' => $faker->title,
+        'user_id' => function () {
+          return factory('App\User')->create()->id;
+        },
     ];
 });
 
