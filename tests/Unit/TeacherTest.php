@@ -18,4 +18,12 @@ class TeacherTest extends TestCase
       $course = \App\Course::find($teacher->course_id);
       $this->AssertInstanceOf('App\Teacher', $course->teacherId());
     }
+
+    /** @test */
+    public function course_teacher_instance_of_user()
+    {
+      $teacher = factory('App\Teacher')->create();
+      $course = \App\Course::find($teacher->course_id);
+      $this->AssertInstanceOf('App\User', $course->teacher());
+    }
 }

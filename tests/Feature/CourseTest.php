@@ -10,8 +10,8 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class CourseTest extends TestCase
 {
-
   use DatabaseMigrations;
+
   public function setUp()
   {
     parent::setUp();
@@ -48,4 +48,5 @@ class CourseTest extends TestCase
       $this->get('courses/' . $this->course->id)
         ->assertSee($this->user->first_name);
     }
+  
 }

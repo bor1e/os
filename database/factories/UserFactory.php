@@ -13,6 +13,56 @@ use Faker\Generator as Faker;
 |
 */
 
+$factory->define(App\Course::class, function (Faker $faker) {
+
+    return [
+        'title' => $faker->text(60),
+        'datetimetz' => $faker->dateTime('now','UTC'),
+        'description' => $faker->text(160),
+        'body' => $faker->text(500),
+        'language' => $faker->randomElement(array('de','ru','en','he')),
+        'slug' => $faker->slug,
+        'g2m_id' => $faker->biasedNumberBetween(100000000, 999999999),
+        'cycle' => $faker->randomElement(array(0,1,2)),
+      ];
+});
+
+$factory->define(App\CourseFeedback::class, function (Faker $faker) {
+
+    return [
+      'course_id' => function () {
+        return factory('App\Course')->create()->id;
+      },
+      'feedback' => $faker->sentences($faker->randomElement(array(1,2,3,4)), true),
+      'user_id' => function () {
+        return factory('App\User')->create()->id;
+      },
+    ];
+});
+
+$factory->define(App\Participant::class, function (Faker $faker) {
+    return [
+        'course_id' => function () {
+          return factory('App\Course')->create()->id;
+        },
+        'user_id' => function () {
+          return factory('App\User')->create()->id;
+        },
+    ];
+});
+
+$factory->define(App\Teacher::class, function (Faker $faker) {
+
+    return [
+        'course_id' => function () {
+          return factory('App\Course')->create()->id;
+        },
+        'user_id' => function () {
+          return factory('App\User')->create()->id;
+        },
+    ];
+});
+
 $factory->define(App\User::class, function (Faker $faker) {
     static $password;
 
@@ -31,42 +81,5 @@ $factory->define(App\User::class, function (Faker $faker) {
         'password' => $password ?: $password = bcrypt('secret'),
         'approved' => $faker->boolean(60),
         'remember_token' => str_random(10),
-    ];
-});
-
-$factory->define(App\Course::class, function (Faker $faker) {
-
-    return [
-        'title' => $faker->text(60),
-        'datetimetz' => $faker->dateTime('now','UTC'),
-        'description' => $faker->text(160),
-        'body' => $faker->text(500),
-        'language' => $faker->randomElement(array('de','ru','en','he')),
-        'slug' => $faker->slug,
-        'g2m_id' => $faker->biasedNumberBetween(100000000, 999999999),
-        'cycle' => $faker->randomElement(array(0,1,2)),
-      ];
-});
-
-$factory->define(App\Teacher::class, function (Faker $faker) {
-
-    return [
-        'course_id' => function () {
-          return factory('App\Course')->create()->id;
-        },
-        'user_id' => function () {
-          return factory('App\User')->create()->id;
-        },
-    ];
-});
-
-$factory->define(App\Participant::class, function (Faker $faker) {
-    return [
-        'course_id' => function () {
-          return factory('App\Course')->create()->id;
-        },
-        'user_id' => function () {
-          return factory('App\User')->create()->id;
-        },
     ];
 });

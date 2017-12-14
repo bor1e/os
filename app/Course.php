@@ -2,16 +2,18 @@
 
 namespace App;
 
+use App\Participant;
 use Illuminate\Database\Eloquent\Model;
 
 class Course extends Model
 {
-    /* not needed so far:
+    protected $guarded = [];
+
     public function participants()
     {
       return $this->hasMany('App\Participant');
     }
-    */
+
 
     public function users()
     {
@@ -34,6 +36,12 @@ class Course extends Model
     public function teacher()
     {
       return User::find($this->teacherId()->id);
+    }
+
+    public function addParticipant($participant)
+    {
+
+        $this->participants()->create($participant);
     }
 
 }

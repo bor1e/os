@@ -2,17 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Course;
-use App\Participant;
+use App\CourseFeedback;
 use Illuminate\Http\Request;
 
-class ParticipantsController extends Controller
+class CourseFeedbackController extends Controller
 {
-
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
     /**
      * Display a listing of the resource.
      *
@@ -39,31 +33,18 @@ class ParticipantsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Course $course)
+    public function store(Request $request)
     {
-
-      $course->addParticipant([
-        'course_id' => $course->id,
-        'user_id' => auth()->id(),
-      ]);
-
-      return back();
-        /*
-        Participant::create([
-          'user_id' =>
-          'course_id' =>
-        ]);
-        return view('/courses/'.course_id, compact('courses'));
-        */
+        //
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Participant  $participant
+     * @param  \App\CourseFeedback  $courseFeedback
      * @return \Illuminate\Http\Response
      */
-    public function show(Participant $participant)
+    public function show(CourseFeedback $courseFeedback)
     {
         //
     }
@@ -71,10 +52,10 @@ class ParticipantsController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Participant  $participant
+     * @param  \App\CourseFeedback  $courseFeedback
      * @return \Illuminate\Http\Response
      */
-    public function edit(Participant $participant)
+    public function edit(CourseFeedback $courseFeedback)
     {
         //
     }
@@ -83,10 +64,10 @@ class ParticipantsController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Participant  $participant
+     * @param  \App\CourseFeedback  $courseFeedback
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Participant $participant)
+    public function update(Request $request, CourseFeedback $courseFeedback)
     {
         //
     }
@@ -94,10 +75,10 @@ class ParticipantsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Participant  $participant
+     * @param  \App\CourseFeedback  $courseFeedback
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Participant $participant)
+    public function destroy(CourseFeedback $courseFeedback)
     {
         //
     }

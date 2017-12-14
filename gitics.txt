@@ -12,3 +12,16 @@ git push origin :the_remote_branch
 # factories
 $ts = factory('App\Teacher', 30)->create()
 $ts->each(function ($t) { factory('App\Participant', random_int(3, 40))->create(['course_id'=>$t->course_id]);});
+
+#create snippets
+
+'.snippet.php':
+  'Create Testcases':
+    'prefix': 'test'
+    'body': """
+        /** @test */
+        public function $1()
+        {
+          $2
+        }
+    """
