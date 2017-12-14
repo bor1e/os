@@ -33,7 +33,7 @@
 
 
                 <div class="tab-pane fade" id="nav-teacher-{{ $course->id }}" role="tabpanel" aria-labelledby="nav-teacher-tab">
-                  <h4>{{ $course->teacher()['fullname'] }}</h4>
+                  <h4>{{ $course->teacher()->title .' '. $course->teacher()->last_name  . ', ' . $course->teacher()->first_name }}</h4>
                   <p class="card-text">
                     <ul>
                       <li>Email: {{ $course->teacher()['email'] }}</li>

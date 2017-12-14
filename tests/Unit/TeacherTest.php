@@ -12,8 +12,10 @@ class TeacherTest extends TestCase
   use DatabaseMigrations;
 
     /** @test */
-    public function testExample()
+    public function course_teacher_id_instance_of_teacher()
     {
-      $this->assertTrue(true);
+      $teacher = factory('App\Teacher')->create();
+      $course = \App\Course::find($teacher->course_id);
+      $this->AssertInstanceOf('App\Teacher', $course->teacherId());
     }
 }

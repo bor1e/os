@@ -20,6 +20,13 @@ $factory->define(App\User::class, function (Faker $faker) {
         'first_name' => $faker->firstName,
         'last_name' => $faker->lastName,
         'gender' => $faker->randomElement(array('male', 'female')),
+        'city' => $faker->city,
+        'language' => $faker->randomElement(array('de','ru','en','he')),
+        'facebook' => $faker->userName,
+        'title' => $faker->title,
+        'birthday' => $faker->date,
+        'phone' => $faker->phoneNumber,
+        'notes' => $faker->sentences(5,true),
         'email' => $faker->unique()->safeEmail,
         'password' => $password ?: $password = bcrypt('secret'),
         'approved' => $faker->boolean(60),
@@ -34,6 +41,7 @@ $factory->define(App\Course::class, function (Faker $faker) {
         'datetimetz' => $faker->dateTime('now','UTC'),
         'description' => $faker->text(160),
         'body' => $faker->text(500),
+        'language' => $faker->randomElement(array('de','ru','en','he')),
         'slug' => $faker->slug,
         'g2m_id' => $faker->biasedNumberBetween(100000000, 999999999),
         'cycle' => $faker->randomElement(array(0,1,2)),
@@ -43,12 +51,9 @@ $factory->define(App\Course::class, function (Faker $faker) {
 $factory->define(App\Teacher::class, function (Faker $faker) {
 
     return [
-        'city' => $faker->city,
         'course_id' => function () {
           return factory('App\Course')->create()->id;
         },
-        'facebook' => $faker->userName,
-        'title' => $faker->title,
         'user_id' => function () {
           return factory('App\User')->create()->id;
         },

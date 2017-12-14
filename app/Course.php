@@ -26,26 +26,14 @@ class Course extends Model
     }
 
 
+    public function teacherId()
+    {
+      return $this->belongsTo('App\Teacher', 'id', 'course_id')->first();
+    }
+
     public function teacher()
     {
-      $teacher = $this->hasOne('App\Teacher')->first();
-      $user = User::find($teacher->user_id);
-      $fullname = '';
-      if (isset($teacher->title)) {
-        $fullname = $teacher->title.' '.$user->last_name.', '.$user->first_name;
-      }
-      else {
-        $fullname = $user->last_name.', '.$user->first_name;
-      }
-      
-      return [
-        'first_name' => $user->first_name,
-        'last_name' => $user->last_name,
-        'email' => $user->email,
-        'city' => $teacher->city,
-        'social' => $teacher->social,
-        'fullname' => $fullname,
-      ];
+      return User::find($this->teacherId()->id);
     }
 
 }

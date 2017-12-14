@@ -18,6 +18,11 @@ class CreateUsersTable extends Migration
             $table->string('first_name');
             $table->string('last_name');
             $table->enum('gender', ['male','female']);
+            $table->text('city')->nullable();
+            $table->string('language')->nullable();
+            $table->string('facebook')->nullable();
+            $table->string('title')->nullable();
+            $table->date('birthday')->nullable();
             $table->string('phone')->nullable();
             $table->text('notes')->nullable();
             $table->string('email')->unique();

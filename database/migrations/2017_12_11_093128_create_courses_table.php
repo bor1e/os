@@ -21,7 +21,8 @@ class CreateCoursesTable extends Migration
           //desc appears in serp
           $table->string('description', 160);
           $table->text('body');
-          $table->text('slug');
+          $table->string('language');
+          $table->string('slug');
           $table->integer('g2m_id');
           $table->integer('cycle')->default(0);
           $table->timestamps();
