@@ -46,12 +46,21 @@ class ParticipateInCourseTest extends TestCase
   /** @test */
   public function an_authenticated_user_can_give_feedback()
   {
+
     // given we have an authenticated user
     $user = factory('App\User')->create();
+    $this->signIn($user);
 
     $feedback = factory('App\CourseFeedback')->create(['user_id'=>$user->id]);
+    $course_path = '/courses/'. $feedback->course_id;
 
-    // TODO:
+    $this->post($course_path .'/feedback', $feedback->toArray());
+
+    $this->get($course_path)
+      ->assertSee($feedback->body);
+
+  /*  // TODO:
     $this->assertTrue(true);
+*/
   }
 }

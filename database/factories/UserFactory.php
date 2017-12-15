@@ -30,10 +30,10 @@ $factory->define(App\Course::class, function (Faker $faker) {
 $factory->define(App\CourseFeedback::class, function (Faker $faker) {
 
     return [
+      'body' => $faker->sentences($faker->randomElement(array(1,2,3,4)), true),
       'course_id' => function () {
         return factory('App\Course')->create()->id;
       },
-      'feedback' => $faker->sentences($faker->randomElement(array(1,2,3,4)), true),
       'user_id' => function () {
         return factory('App\User')->create()->id;
       },

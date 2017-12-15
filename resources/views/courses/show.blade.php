@@ -10,6 +10,8 @@
     {{ $course->body }}
   </p>
   <hr>
+  @include('courses.feedbacks')
+  <hr>
   <h1>Participants <span class="muted-text">({{ $course->users()->count() }})</span></h1>
   <p>
   <ul class="list-group">

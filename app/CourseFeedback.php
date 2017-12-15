@@ -6,13 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class CourseFeedback extends Model
 {
+  protected $guarded = [];
+
     public function user()
     {
-      $this->belongsTo('App\User', 'user_id');
+      return $this->belongsTo('App\User')->first();
     }
 
     public function course()
     {
-      $this->belongsTo('App\Course', 'course_id');
+      return $this->belongsTo('App\Course')->first();
     }
 }

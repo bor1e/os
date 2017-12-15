@@ -36,6 +36,7 @@ Route::post('contact', 'ContactForm@send')->name('contact');
 Route::get('/courses', 'CoursesController@index');
 Route::get('/courses/{course}', 'CoursesController@show');
 Route::post('/courses/{course}/enroll', 'ParticipantsController@store');
+Route::post('/courses/{course}/feedback', 'CourseFeedbacksController@store');
 
 Auth::routes();
 

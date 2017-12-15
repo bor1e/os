@@ -2,11 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Course;
 use App\CourseFeedback;
 use Illuminate\Http\Request;
 
-class CourseFeedbackController extends Controller
+class CourseFeedbacksController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -35,7 +41,15 @@ class CourseFeedbackController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+      // TODO: this method should be not used on Course, but on participants,
+      // so that only participants sould be able to leave feedback
+        Course::find($request['course_id'])->addFeedback([
+          'body' => $request['body'],
+          'course_id' => $request['course_id'],
+          'user_id' => auth()->id(),
+        ]);
+        return back();
     }
 
     /**

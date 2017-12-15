@@ -15,7 +15,7 @@ class CreateCourseFeedbacksTable extends Migration
     {
         Schema::create('course_feedbacks', function (Blueprint $table) {
             $table->increments('id');
-            $table->text('feedback');
+            $table->text('body');
             $table->integer('user_id')->unsigned();
             $table->integer('course_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

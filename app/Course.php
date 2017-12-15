@@ -40,8 +40,20 @@ class Course extends Model
 
     public function addParticipant($participant)
     {
+        return $this->participants()->create($participant);
+    }
 
-        $this->participants()->create($participant);
+    public function feedbacks()
+    {
+        return $this->hasMany('App\CourseFeedback');
+    }
+
+    // TODO: this method should be not used in Course-Model, but on the
+    // participant-Model so that only participants sould be
+    // able to leave feedback
+    public function addFeedback($feedback)
+    {
+        $this->feedbacks()->create($feedback);
     }
 
 }
