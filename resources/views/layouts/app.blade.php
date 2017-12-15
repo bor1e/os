@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
-<body>
+<body style="padding-bottom: 100px">
   <header class="header clearfix">
 
 
@@ -28,6 +28,11 @@
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
+        <ul class="navbar-nav">
+          <li class="nav-item">
+          <a class="nav-link" href="/courses">Courses</a>
+        </li>
+      </ul>
   <div class="justify-content-end"   id="navbarNavDropdown">
     <ul class="navbar-nav">
       <!-- Authentication Links -->
@@ -35,13 +40,13 @@
         <li class="nav-item">
           <a class="nav-link" href="{{ route('login') }}">Login</a></li>
         </li>
-        <li class="nav-item">
+
           <a class="nav-link" href="{{ route('register') }}">Register</a></li>
         </li>
       @else
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          {{ Auth::user()->name }} <span class="caret"></span>
+          {{ Auth::user()->first_name }} <span class="caret"></span>
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
           <a class="dropdown-item" href="{{ route('logout') }}"

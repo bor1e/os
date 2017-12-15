@@ -39,14 +39,15 @@ class CourseFeedbacksController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $course)
     {
 
       // TODO: this method should be not used on Course, but on participants,
       // so that only participants sould be able to leave feedback
-        Course::find($request['course_id'])->addFeedback([
+      
+        Course::find($course)->addFeedback([
           'body' => $request['body'],
-          'course_id' => $request['course_id'],
+          'course_id' => $course,
           'user_id' => auth()->id(),
         ]);
         return back();

@@ -56,4 +56,8 @@ class Course extends Model
         $this->feedbacks()->create($feedback);
     }
 
+    public function path()
+    {
+        return '/courses/' . $this->id;
+    }
 }
