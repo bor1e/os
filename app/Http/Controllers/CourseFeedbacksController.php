@@ -43,8 +43,8 @@ class CourseFeedbacksController extends Controller
     {
 
       // TODO: this method should be not used on Course, but on participants,
-      // so that only participants sould be able to leave feedback
-      
+      // so that only participants should be able to leave feedback
+
         Course::find($course)->addFeedback([
           'body' => $request['body'],
           'course_id' => $course,

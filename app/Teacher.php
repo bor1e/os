@@ -10,4 +10,9 @@ class Teacher extends Model
     {
       return $this->hasMany('App\Course');
     }
+
+    public function user()
+    {
+        return $this->hasOne('App\User', 'id','user_id')->first();
+    }
 }
