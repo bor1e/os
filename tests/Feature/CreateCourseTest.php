@@ -16,8 +16,7 @@ class CreateCourseTest extends TestCase
       // given an authenticated teacher
 
       // when hitting endpoint to create a course
-
-
+      
       // then, when we visit all courses
 
       // we should see the new course

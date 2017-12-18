@@ -3,13 +3,19 @@
 namespace Tests;
 
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 abstract class TestCase extends BaseTestCase
 {
     use CreatesApplication;
+    use DatabaseMigrations;
 
-    public function signIn($user)
+    protected function signIn($user = null)
     {
-      $this->be($user);
+      $user = $user ?: create('App\User');
+      //$this->be($user);
+      $this->actingAs($user);
+
+      return $this;
     }
 }

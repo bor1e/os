@@ -5,12 +5,12 @@ namespace Tests\Feature;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
+//use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 
 class ParticipateInCourseTest extends TestCase
 {
-  use DatabaseMigrations;
+  //use DatabaseMigrations;
 
   /** @test */
   public function unauthenticated_users_cannot_participate()
@@ -23,11 +23,11 @@ class ParticipateInCourseTest extends TestCase
   public function an_authenticated_user_can_participate_in_course()
   {
     // given we have an authenticated user
-    $user = factory('App\User')->create();
+    $user = create('App\User');
     $this->signIn($user);
 
     // and an existing course
-    $teacher = factory('App\Teacher')->create();
+    $teacher = create('App\Teacher');
     $course_path = '/courses/'. $teacher->course_id;
 
     //assert the user is not present beforehand
@@ -46,7 +46,6 @@ class ParticipateInCourseTest extends TestCase
   /** @test */
   public function an_authenticated_user_can_give_feedback()
   {
-
     // given we have an authenticated user
     $user = factory('App\User')->create();
     $this->signIn($user);
@@ -58,9 +57,5 @@ class ParticipateInCourseTest extends TestCase
 
     $this->get($course_path)
       ->assertSee($feedback->body);
-
-  /*  // TODO:
-    $this->assertTrue(true);
-*/
   }
 }
