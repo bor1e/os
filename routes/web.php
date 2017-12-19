@@ -41,3 +41,10 @@ Route::post('/courses/{course}/feedback', 'CourseFeedbacksController@store');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::prefix('shomer')->group(function () {
+  Route::middleware(['middleware' => 'can:manageUsers'])->group(function() {
+    Route::get('users', 'ManageUsersController@index')->name('manageUsers');
+    Route::get('/{userid}/{role}', 'ManageUsersController@assignRole');
+  });
+});

@@ -11,6 +11,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call(UsersTableSeeder::class);
+      \App\Role::create(['name'=>'manager']);
+      \App\Role::create(['name'=>'teacher']);
+      \App\Role::create(['name'=>'member']);
+      \App\Role::create(['name'=>'pending']);
+      \App\Role::create(['name'=>'declined']);
+
+      \App\Permission::create(['name'=>'manageUsers']);
+
     }
 }

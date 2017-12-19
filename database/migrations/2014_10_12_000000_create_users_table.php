@@ -27,7 +27,7 @@ class CreateUsersTable extends Migration
             $table->text('notes')->nullable();
             $table->string('email')->unique();
             $table->string('password');
-            $table->boolean('approved')->default(false);
+            $table->string('assignedBy')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

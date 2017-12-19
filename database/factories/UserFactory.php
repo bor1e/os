@@ -51,6 +51,13 @@ $factory->define(App\Participant::class, function (Faker $faker) {
     ];
 });
 
+$factory->define(App\Permission::class, function (Faker $faker) {
+    return [
+        'name' => $faker->userName,
+    ];
+});
+
+
 $factory->define(App\Teacher::class, function (Faker $faker) {
 
     return [
@@ -79,7 +86,7 @@ $factory->define(App\User::class, function (Faker $faker) {
         'notes' => $faker->sentences(5,true),
         'email' => $faker->unique()->safeEmail,
         'password' => $password ?: $password = bcrypt('secret'),
-        'approved' => $faker->boolean(60),
+        'assignedBy' => $faker->randomElement(array('Chana','Elyahu','Yochewed','')),
         'remember_token' => str_random(10),
     ];
 });
