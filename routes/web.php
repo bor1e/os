@@ -37,6 +37,8 @@ Route::get('/courses', 'CoursesController@index');
 Route::get('/courses/{course}', 'CoursesController@show');
 Route::post('/courses/{course}/enroll', 'ParticipantsController@store');
 Route::post('/courses/{course}/feedback', 'CourseFeedbacksController@store');
+Route::post('/courses', 'CoursesController@store')->middleware('can:create,App\Course');
+//Route::post('/courses/{course}/update', 'CoursesController@edit');
 
 Auth::routes();
 

@@ -9,6 +9,9 @@
   <p class="lead">
     {{ $course->body }}
   </p>
+  <p class="text-right">
+    <strong>Teacher:</strong> {{$course->teacher()->title .' '. $course->teacher()->first_name .' '.$course->teacher()->last_name}}
+  </p>
   <hr>
   @include('courses.feedbacks')
   @if (auth()->check())

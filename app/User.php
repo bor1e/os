@@ -44,6 +44,7 @@ class User extends Authenticatable
      */
     public function assignRole($role)
     {
+            //dd($this->roles()->get());
         return $this->roles()->save(
             Role::whereName($role)->firstOrFail()
         );
@@ -61,6 +62,16 @@ class User extends Authenticatable
         }
         return !! $role->intersect($this->roles)->count();
     }
+
+    public function revokeRole($role)
+    {
+        //if ($this->hasRole($role)) {
+        return $this->roles()->detach(
+            Role::whereName($role)->firstOrFail()
+        );
+        //}
+    }
+
     /**
      * Determine if the user may perform the given permission.
      *

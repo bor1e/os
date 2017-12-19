@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use \App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class ManageUsersController  extends Controller
 {
@@ -55,14 +56,20 @@ class ManageUsersController  extends Controller
     {
         if (in_array($role, ['member','teacher','declined','pending'])) {
           $user = User::findOrFail($userid);
+
           $user->assignRole($role);
+
+          // TODO:
+          // assignedBy should not be a column but a
+          // pivot between 'users' and 'role_user'
           $user->assignedBy = auth()->user()->first_name;
           $user->save();
+//          if($role=='pending') dd('pending');
           return back();
         }
         else {
           Log::alert('Trying to assign Role \''.$role.'\' to the User with ID: '.$userid);
-          abort(403, 'Unathorized action.');
+          abort(451, 'Unathorized action.');
         }
     }
 }

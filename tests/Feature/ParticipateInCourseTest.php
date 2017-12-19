@@ -22,23 +22,23 @@ class ParticipateInCourseTest extends TestCase
   /** @test */
   public function an_authenticated_user_can_participate_in_course()
   {
+    $teacher = create('App\Teacher');
+    $course = \App\Course::find($teacher->course_id)->first();
+
     // given we have an authenticated user
     $user = create('App\User');
     $this->signIn($user);
 
-    // and an existing course
-    $teacher = create('App\Teacher');
-    $course_path = '/courses/'. $teacher->course_id;
-
     //assert the user is not present beforehand
-    $this->get($course_path)
+    $this->get($course->path())
+      ->assertSee(\App\User::find($teacher->id)->first()->last_name)
       ->assertDontSee($user->last_name);
 
     // when user enrolls in class
-    $this->post($course_path .'/enroll', $user->toArray());
+    $this->post($course->path() .'/enroll', $user->toArray());
 
     // the number of participants updates
-    $this->get($course_path)
+    $this->get($course->path())
       ->assertSee($user->last_name);
 
   }
@@ -51,6 +51,7 @@ class ParticipateInCourseTest extends TestCase
     $this->signIn($user);
 
     $feedback = factory('App\CourseFeedback')->create(['user_id'=>$user->id]);
+    $teacher = factory('App\Teacher')->create(['course_id'=>$feedback->course_id]);
     $course_path = '/courses/'. $feedback->course_id;
 
     $this->post($course_path .'/feedback', $feedback->toArray());

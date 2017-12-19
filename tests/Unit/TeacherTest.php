@@ -16,7 +16,7 @@ class TeacherTest extends TestCase
     {
       $teacher = factory('App\Teacher')->create();
       $course = \App\Course::find($teacher->course_id);
-      $this->AssertInstanceOf('App\Teacher', $course->teacherId());
+      $this->AssertInstanceOf('App\Teacher', $course->owner()->first());
     }
 
     /** @test */

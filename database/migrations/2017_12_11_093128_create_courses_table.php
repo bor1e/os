@@ -17,7 +17,7 @@ class CreateCoursesTable extends Migration
           $table->increments('id');
           //title seo keyword 1, keyword 2 | Brand ; no more than 60 chars
           $table->string('title', 60);
-          $table->dateTimeTz('datetimetz');
+          $table->dateTimeTz('datetimetz')/*->nullable()*/;
           //desc appears in serp
           $table->string('description', 160);
           $table->text('body');

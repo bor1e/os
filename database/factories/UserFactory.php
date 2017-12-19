@@ -51,9 +51,15 @@ $factory->define(App\Participant::class, function (Faker $faker) {
     ];
 });
 
-$factory->define(App\Permission::class, function (Faker $faker) {
+$factory->define(App\Role::class, function (Faker $faker) {
     return [
         'name' => $faker->userName,
+    ];
+});
+
+$factory->define(App\Permission::class, function (Faker $faker) {
+    return [
+      'name' => $faker->randomElement(array('manager','teacher','member','pending','declined')),
     ];
 });
 

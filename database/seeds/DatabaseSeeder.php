@@ -18,6 +18,9 @@ class DatabaseSeeder extends Seeder
       \App\Role::create(['name'=>'declined']);
 
       \App\Permission::create(['name'=>'manageUsers']);
-
+      \DB::table('permission_role')->insert([
+        'permission_id' => \App\Permission::where('name','like','manageUsers')->first()->id,
+        'role_id' => \App\Role::where('name','like','manager')->first()->id,
+      ]);
     }
 }
