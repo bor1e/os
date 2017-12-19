@@ -11,7 +11,7 @@ class ParticipantsController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('can:participateInCourse')->only('store');
     }
 
     /**
@@ -42,7 +42,7 @@ class ParticipantsController extends Controller
      */
     public function store(Course $course)
     {
-
+//      dd($course);
       $course->addParticipant([
         'course_id' => $course->id,
         'user_id' => auth()->id(),
@@ -98,8 +98,9 @@ class ParticipantsController extends Controller
      * @param  \App\Participant  $participant
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Participant $participant)
+    public function destroy(Course $course)
     {
-        //
+        Participant::where('user_id','=',auth()->id())->where('course_id','=',$course->id)->delete();
+        return back();
     }
 }

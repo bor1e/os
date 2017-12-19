@@ -3,6 +3,17 @@
 @section('content')
   <div class="row">
     <div class="col-11">
+    @cannot('participateInCourse')
+      <ul class="list-group mt-3">
+        <li class="list-group-item list-group-item-warning">
+        @if (!Auth::check())
+          <p class="mt-3">Please <a href="{{route('login') }}">sign in</a> to enroll and to participate in classes.</p>
+        @elseif (Auth::user()->hasRole('pending'))
+          Please <a href="/profile"> update </a>your User Information, in order to be approved by the Admins.
+        @endif
+        </li>
+      </ul>
+    @endcannot
       @foreach ($courses as $course)
         @if ($loop->index % 3 == 0)
           <div class="card-deck my-3">
@@ -28,7 +39,7 @@
                  <div class="col-8">
                    <small class="text-muted">{{$course->created_at->diffForHumans()}}</small></li>
                  </div>
-                 <div class="col-3">
+                 <div class="col-3 text-right">
                    <i class="fa fa-users" aria-hidden="false">{{ ' '. $course->users()->count() }}</i>
                  </div>
                </div>
@@ -43,15 +54,10 @@
         @endif
       @endforeach
     </div>
-    <div class="col-1">
+    <div class="col-1 mt-4">
       <p>
-
-
       @can('create', App\Course::class)
-      <form action="/courses" method="post">
-        {{ csrf_field() }}
-        <button  type="submit" class="btn btn-success">Create Course</button>
-      </form>
+        <a  href="/courses/create" class="btn btn-success">Create Course</a>
       <!--@ if (Auth::user()->hasRole('manager'))
         Manager!
       @ elseif (Auth::user()->hasRole('teacher'))

@@ -1,3 +1,2 @@
 # todo:
-- added link column to courses
-- add facebook to teacher
+- refactor teacher table and course table, so that a course has a teacher

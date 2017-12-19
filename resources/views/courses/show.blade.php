@@ -13,8 +13,19 @@
     <strong>Teacher:</strong> {{$course->teacher()->title .' '. $course->teacher()->first_name .' '.$course->teacher()->last_name}}
   </p>
   <hr>
+  @cannot('addFeedback')
+    <ul class="list-group">
+      <li class="list-group-item list-group-item-warning">
+      @if (!Auth::check())
+        <p class="mt-3">Please <a href="{{route('login') }}">sign in</a> to give a feedback, or ask a question.</p>
+      @elseif (Auth::user()->hasRole('pending'))
+        Please Update your User Information, in order to be approved by the Admins.
+      @endif
+      </li>
+    </ul>
+  @endcannot
   @include('courses.feedbacks')
-  @if (auth()->check())
+  @can('addFeedback')
     <div class="row mt-3">
       <div class="col-8">
         <div class="card">
@@ -32,16 +43,16 @@
         </div>
       </div>
     </div>
-  @else
-    <p class="mt-3">Please <a href="{{route('login') }}">sign in</a> to give a feedback, or ask a question.</p>
-  @endif
+  @endcan
   <hr>
   <h1>Participants <span class="muted-text">({{ $course->users()->count() }})</span></h1>
   <p>
-  <ul class="list-group">
-    @foreach ($course->users() as $user)
-      <li class="list-group-item">{{  $user->last_name . ', ' . $user->first_name }}</li>
-    @endforeach
-  </ul>
-</p>
+    @can('participateInCourse')
+      <ul class="list-group">
+        @foreach ($course->users() as $user)
+          <li class="list-group-item">{{ $user->first_name . ', ' . substr($user->last_name, 0,1).'.' }}</li>
+        @endforeach
+      </ul>
+    @endcan
+  </p>
 @endsection

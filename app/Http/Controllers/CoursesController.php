@@ -31,7 +31,7 @@ class CoursesController extends Controller
      */
     public function create()
     {
-        //
+        return view('courses.create');
     }
 
     /**
@@ -42,9 +42,12 @@ class CoursesController extends Controller
      */
     public function store(Request $request)
     {
+      $format = 'd.m.Y H:i';
+      $datetimetz = \DateTime::createFromFormat($format, $request['datetimetz'] , new \DateTimeZone('Europe/Berlin'));
+
         $course = Course::create([
           'title' => $request['title'],
-          'datetimetz' => $request['datetimetz'],
+          'datetimetz' => $datetimetz,
           'description' => $request['description'],
           'body' => $request['body'],
           'language' => $request['language'],
