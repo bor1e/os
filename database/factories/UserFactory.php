@@ -17,7 +17,7 @@ $factory->define(App\Course::class, function (Faker $faker) {
 
     return [
         'title' => $faker->text(60),
-        'datetimetz' => $faker->dateTimeBetween('now', 1517368597);
+        'datetimetz' => $faker->dateTimeBetween('now', 1517368597),
         'description' => $faker->text(160),
         'body' => $faker->text(500),
         'language' => $faker->randomElement(array('de','ru','en','he')),
