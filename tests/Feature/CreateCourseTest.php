@@ -21,15 +21,20 @@ class CreateCourseTest extends TestCase
       // given an authenticated teacher and a course
       $teacher = create('App\User');
       $teacher->assignRole('teacher');
-      $this->signIn($teacher);
-      $course = make('App\Course');
+      //$this->signIn($teacher);
+      $this->be($teacher);
+      $course = make('App\Course', ['datetimetz'=>'08.01.2018 18:30']);
 
       // when hitting endpoint to create a course
       $this->post('/courses', $course->toArray());
-
+      /*create('App\Teacher', [
+        'user_id'=>$teacher->id,
+        'course_id'=>\App\Course::where('title','=',$course->title)->first()->id,
+      ]);
+      */
       // then, when we visit all courses
       $this->get('/courses')->assertSee($course->title);
-      $this->get('/courses/'.$course->id)
+      $this->get($course->path())
             ->assertSee($course->title)
             ->assertSee($teacher->last_name);
     }
@@ -41,7 +46,7 @@ class CreateCourseTest extends TestCase
       $member = create('App\User');
       $member->assignRole('member');
       $this->signIn($member);
-      $course = make('App\Course');
+      $course = make('App\Course', ['datetimetz'=>'08.01.2018 18:30']);
 
       // when hitting endpoint to create a course
       //$this->expectException('Illuminate\Auth\AuthenticationException');

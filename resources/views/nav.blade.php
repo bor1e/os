@@ -43,7 +43,7 @@
             </a>
           </p>
           <p class="control">
-            <a class="button is-primary" href="https://goo.gl/U4pTR1">
+            <a class="button is-primary" href="/login">
               <span class="icon">
                 <i class="fa fa-sign-in"></i>
               </span>

@@ -1,8 +1,23 @@
 @extends('layouts.app')
 
 @section('content')
-  <div class="row">
-    <div class="col-11">
+  <div class="row justify-content-center">
+    @if (Auth::check() && Auth::user()->can('participateInCourse') && Auth::user()->participates()->count())
+    <div class="col-2 mt-3 text-center">
+        <h3 class="muted-text">Enrolled in Courses</h3>
+        <ul class="list-group">
+          @foreach (Auth::user()->participates()->get() as $course)
+            <li class="list-group-item">
+              <a href="{{$course->path()}}">{{ $course->title }}</a>
+            </li>
+          @endforeach
+        </ul>
+
+    </div>
+    <div class="col-9">
+    @else
+      <div class="col-11">
+    @endif
     @cannot('participateInCourse')
       <ul class="list-group mt-3">
         <li class="list-group-item list-group-item-warning">
@@ -16,7 +31,7 @@
     @endcannot
       @foreach ($courses as $course)
         @if ($loop->index % 3 == 0)
-          <div class="card-deck my-3">
+          <div class="card-deck my-3 text-left">
         @endif
             <div class="card">
               <!-- CARD HEADER -->
@@ -24,7 +39,9 @@
                 <nav class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
                   <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-info-{{ $course->id }}" role="tab" aria-controls="nav-info" aria-selected="true">Info</a>
                   <a class="nav-item nav-link" id="nav-description-tab" data-toggle="tab" href="#nav-description-{{ $course->id }}" role="tab" aria-controls="nav-description" aria-selected="false">About</a>
-                  <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-teacher-{{ $course->id }}" role="tab" aria-controls="nav-teacher" aria-selected="false">Teacher</a>
+                  @if ($course->hasTeacher())
+                    <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-teacher-{{ $course->id }}" role="tab" aria-controls="nav-teacher" aria-selected="false">Teacher</a>
+                  @endif
                 </nav>
               </div>
 
@@ -54,18 +71,19 @@
         @endif
       @endforeach
     </div>
-    <div class="col-1 mt-4">
-      <p>
       @can('create', App\Course::class)
+        <div class="col-1 mt-4">
+          <p>
+
         <a  href="/courses/create" class="btn btn-success">Create Course</a>
       <!--@ if (Auth::user()->hasRole('manager'))
         Manager!
       @ elseif (Auth::user()->hasRole('teacher'))
         Teacher!
       @ endif
--->
+--></p>
       @endcan
-      </p>
+
     </div>
     </div>
   </div>

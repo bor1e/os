@@ -82,4 +82,21 @@ class User extends Authenticatable
     {
         return $this->hasRole($permission->roles);
     }
+
+    public function participates()
+    {
+      return $this->belongsToMany('App\Course','participants');
+    }
+
+    /*
+    select `courses`.*, `participants`.`a`
+    from `courses`
+    inner join `participants` on `participants`.`d` = `courses`.`b`
+    where `participants`.`a` is null)
+
+    */
+    /*'course_id', //model Participant
+    'id', //model User
+    'id', //model Course
+    'user_id' //model Participant*/
 }

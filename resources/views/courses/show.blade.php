@@ -10,7 +10,11 @@
     {{ $course->body }}
   </p>
   <p class="text-right">
+    @if ($course->hasTeacher())
     <strong>Teacher:</strong> {{$course->teacher()->title .' '. $course->teacher()->first_name .' '.$course->teacher()->last_name}}
+    @else
+      <i>A teacher will be assigned soon.</i>
+    @endif
   </p>
   <hr>
   @cannot('addFeedback')
@@ -20,6 +24,8 @@
         <p class="mt-3">Please <a href="{{route('login') }}">sign in</a> to give a feedback, or ask a question.</p>
       @elseif (Auth::user()->hasRole('pending'))
         Please Update your User Information, in order to be approved by the Admins.
+      @elseif (Auth::user())
+        We are reviewing your registration, we will notify you, when the process is finished. You are welcome to <a href="/abouts-us#contact">contact</a> us.
       @endif
       </li>
     </ul>

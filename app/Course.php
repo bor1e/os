@@ -33,9 +33,14 @@ class Course extends Model
       return $this->belongsTo('App\Teacher', 'id', 'course_id');
     }
 
+    public function hasTeacher()
+    {
+        return count($this->owner()->first());
+    }
+
     public function teacher()
     {
-      return User::find($this->owner()->first()->id);
+      return User::find($this->owner()->first()->id)->first();
     }
 
     public function addParticipant($participant)

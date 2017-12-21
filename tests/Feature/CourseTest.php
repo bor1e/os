@@ -46,7 +46,7 @@ class CourseTest extends TestCase
 
       # when we visit the threads we want to see the names of the participants
       $this->get('courses/' . $this->course->id)
-        ->assertSee($this->user->first_name);
+        ->assertSee('('.$this->course->participants()->count().')');
     }
-  
+
 }

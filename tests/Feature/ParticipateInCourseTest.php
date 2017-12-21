@@ -31,7 +31,7 @@ class ParticipateInCourseTest extends TestCase
   }
 
   /** @test */
-  public function a_participateInCoourse_user_can_participate_in_course()
+  public function a_participateInCourse_user_can_participate_in_course()
   {
     $teacher = create('App\Teacher');
     $course = \App\Course::find($teacher->course_id)->first();
@@ -51,8 +51,7 @@ class ParticipateInCourseTest extends TestCase
 
     // the number of participants updates
     $this->get($course->path())
-      ->assertSee($user->last_name);
-
+      ->assertSee($user->first_name.', '.substr($user->last_name, 0,1));
   }
 
   /** @test */
