@@ -20,7 +20,12 @@ class CoursesController extends Controller
      */
     public function index()
     {
-        $courses = Course::latest()->get();
+        //$courses = Course::orderBy('datetimetz', 'desc')->get();
+        //$courses = Course::where('datetimetz','<',date('m.d.Y H:i'))->orderBy('datetimetz', 'desc')->get();
+        $courses = Course::where('datetimetz','>=',now())->orderBy('datetimetz')->get();
+        /*$courses = Course::sortBy(function($course, $key){
+          return abs(strtotime(date('d.m.Y H:i')) - strtotime($course));
+        })->get();*/
         return view('courses.index', compact('courses'));
     }
 

@@ -1,2 +1,4 @@
 # todo:
-- refactor teacher table and course table, so that a course has a teacher
+- section for mail
+- pic upload
+- datetime update ..

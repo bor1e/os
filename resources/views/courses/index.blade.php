@@ -8,7 +8,9 @@
         <ul class="list-group">
           @foreach (Auth::user()->participates()->get() as $course)
             <li class="list-group-item">
-              <a href="{{$course->path()}}">{{ $course->title }}</a>
+              <p class="small">
+                <a href="{{$course->path()}}">{{ $course->title }}</a>
+              </p>
             </li>
           @endforeach
         </ul>
