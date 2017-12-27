@@ -11,7 +11,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="icon" href="/images/favicon.png" type="image/png" alt="onlineshiurim favicon" />
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name') }}</title>
 
     <!-- Styles -->
     <!--link href="{ { asset('css/app.css') }}" rel="stylesheet"-->
@@ -21,84 +21,86 @@
 <body style="padding-bottom: 100px">
   <header class="header clearfix">
 
-
-  <nav class="navbar navbar-expand justify-content-between navbar-light bg-light">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container">
 
       <a class="navbar-brand" href="{{ url('/') }}">
       <img src="/images/logo.png" width="90" height="30" style="margin-top:-5px" alt="OnlineShiurim: Live Shiurim, join experts from your living room">
           {{ config('app.name') }}
       </a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+
+      <span class="navbar-text ml-auto m-2 d-lg-none d-block">
+        בס"ד
+      </span>
+
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="true" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item">
+
+      <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item mt-1">
             <a class="nav-link" href="/courses">Courses</a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item  mt-1">
             <a class="nav-link" href="/about-us">About Us</a>
-          <li class="nav-item">
-            <a class="nav-link"href="/faq">FAQ</a>
+          <li class="nav-item  mt-1">
+            <a class="nav-link" href="/faq">FAQ</a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item  mt-1">
             <a class="nav-link" href="/imprint">Imprint</a>
           </li>
-          @if (Auth::check() && Auth::user()->can('manageUsers'))
-            <li class="nav-item">
-              <a class="nav-link" href="/shomer/users">Users</a>
-            </li>
-          @endif
-      </ul>
-  <div class="justify-content-end" id="navbarNavDropdown">
-    <ul class="navbar-nav">
-      <!-- Authentication Links -->
-      @guest
-      <!--<div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
-        <div class="btn-group mr-2" role="group" aria-label="First group">
-</div>
-<div class="btn-group mr-2" role="group" aria-label="First group">
-</div>-->
- <form class="form-inline my-2 my-lg-0">
-        <li class="nav-item">
-          <button class="btn btn-outline-info btn-sm align-middle mr-2" type="button">
-              <a class="nav-link" href="{{ route('login') }}"> <i class="fa fa-users"></i> Login</a>
 
-          </button>
-        </li>
-        <li>
-          <button class="btn btn-outline-success btn-sm align-middle" type="button">
-            <a class="nav-link" href="{{ route('register') }}"> <i class="fa fa-sign-in"></i> Register</a>
-          </button>
-        </li>
-      </form>
-      @else
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          {{ Auth::user()->first_name }} <span class="caret"></span>
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item" href="/profile">Edit Profile</a>
-          <a class="dropdown-item" href="{{ route('logout') }}"
-              onclick="event.preventDefault();
-                       document.getElementById('logout-form').submit();">
-              Logout
-          </a>
-          <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-              {{ csrf_field() }}
+          @if (Auth::check() && Auth::user()->can('manageUsers'))
+          <li class="nav-item  mt-1">
+            <a class="nav-link" href="/shomer/users">Users</a>
+          </li>
+          @endif
+
+          @guest
+
+          <form class="form-inline my-2 my-lg-0">
+            <li class="nav-item">
+              <button class="btn btn-outline-info btn-sm align-middle mr-2" type="button">
+                <a class="nav-link" href="{{ route('login') }}"> <i class="fa fa-users"></i> Login</a>
+              </button>
+            </li>
+            <li class="nav-item">
+              <button class="btn btn-outline-success btn-sm align-middle" type="button">
+                <a class="nav-link" href="{{ route('register') }}"> <i class="fa fa-sign-in"></i> Register</a>
+              </button>
+            </li>
           </form>
-        </div>
-      </li>
-      @endguest
-      <li class="nav-item ml-3">
-        <p class="text-muted small">
-          בס"ד
-        </p>
-      </li>
-    </ul>
-  </div>
-</div>
-</nav>
+
+          @else
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              {{ Auth::user()->first_name }} <span class="caret"></span>
+            </a>
+
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+              <a class="dropdown-item" href ="/profile">Edit Profile</a>
+              <a class="dropdown-item" href="{{ route('logout') }}"
+                onclick="event.preventDefault();
+                         document.getElementById('logout-form').submit();">
+                Logout
+              </a>
+              <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                {{ csrf_field() }}
+              </form>
+            </div>
+          </li>
+
+          @endguest
+
+        </ul>
+      </div>
+      <span class="navbar-text d-lg-block d-none ml-2">
+        בס"ד
+      </span>
+    </div>
+  </nav>
 </header>
 <main role="main" class="container">
   @yield('content')
