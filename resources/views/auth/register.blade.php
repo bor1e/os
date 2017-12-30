@@ -42,7 +42,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group{{ $errors->has('last_name') ? ' has-error' : '' }}">
+                        <div class="form-group{{ $errors->has('last_name') ? 'has-error' : '' }}">
                             <label for="last_name" class="col-md-4 control-label">Last Name</label>
 
                             <div class="col-md-6">
@@ -56,20 +56,21 @@
                             </div>
                         </div>
 
-                        <div class="form-check{{ $errors->has('member_of_jewish_community') ? ' has-error' : '' }}">
+                        <label for="jewish">Part of a jewish communtiy or syngoge</label>
+                        <div class="form-check{{ $errors->has('jewish') ? 'has-error' : '' }}">
                           <label class="form-check-label">
-                            <input class="form-check-input" type="radio" name="yes_member" id="yes_member" value="yes_member">
-                          Yes
+                            <input class="form-check-input" type="radio" name="jewish" value="1">
+                            Yes
                           </label>
-                          @if ($errors->has('member_of_jewish_community'))
+                          @if ($errors->has('jewish'))
                               <span class="help-block">
-                                  <strong>{{ $errors->first('member_of_jewish_community') }}</strong>
+                                  <strong>{{ $errors->first('jewish') }}</strong>
                               </span>
                           @endif
                         </div>
-                        <div class="form-check{{ $errors->has('member_of_jewish_community') ? ' has-error' : '' }}">
+                        <div class="form-check{{ $errors->has('jewish') ? ' has-error' : '' }}">
                           <label class="form-check-label">
-                            <input class="form-check-input" type="radio" name="member_of_jewish_community" id="not_member" value="not_member">
+                            <input class="form-check-input" type="radio" name="jewish" value="0">
                             No
                           </label>
                         </div>

@@ -35,16 +35,15 @@ Route::post('contact', 'ContactForm@send')->name('contact');
 
 Route::get('/courses', 'CoursesController@index');
 Route::get('/courses/create', 'CoursesController@create')->middleware('can:create,App\Course');
+//Route::post('/courses/{course}/update', 'CoursesController@edit');
 Route::get('/courses/{course}', 'CoursesController@show');
 Route::post('/courses/{course}/enroll', 'ParticipantsController@store')->middleware('can:participateInCourse');
 Route::post('/courses/{course}/revokeEnrollment', 'ParticipantsController@destroy')->middleware('can:participateInCourse');
 Route::post('/courses/{course}/feedback', 'CourseFeedbacksController@store');
 Route::post('/courses', 'CoursesController@store')->middleware('can:create,App\Course');
-//Route::post('/courses/{course}/update', 'CoursesController@edit');
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
 
 Route::prefix('shomer')->group(function () {
   Route::middleware(['middleware' => 'can:manageUsers'])->group(function() {
@@ -53,6 +52,6 @@ Route::prefix('shomer')->group(function () {
   });
 });
 
-
 Route::get('/profile', 'UsersController@index')->middleware('auth');
 Route::put('/profile', 'UsersController@update')->middleware('auth');
+Route::get('verify_email/{token}', 'EmailController@verify')->name('verify_email');

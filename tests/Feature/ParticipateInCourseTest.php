@@ -18,16 +18,17 @@ class ParticipateInCourseTest extends TestCase
       create('App\Role', ['name'=>'member']);
       create('App\Role', ['name'=>'manager']);
       create('App\Role', ['name'=>'pending']);
+      $this->withoutExceptionHandling();
+
   }
+
   /** @test */
   public function unauthenticated_users_cannot_participate()
   {
-    /*
     $teacher = create('App\Teacher');
-    $this->expectException('Illuminate\Auth\AuthenticationException');
-    $this->post('/courses/'. $teacher->course_id.'/enroll',[])->assertStatus(403);
-    */
-    $this->assertTrue(true);
+    $this->withExceptionHandling()//$this->expectException('Illuminate\Auth\AuthenticationException');
+        ->post('/courses/'. $teacher->course_id.'/enroll',[])->assertRedirect('/login');
+
   }
 
   /** @test */
@@ -49,15 +50,16 @@ class ParticipateInCourseTest extends TestCase
     // when user enrolls in class
     $this->post($course->path() .'/enroll', $user->toArray());
 
-    // the number of participants updates
+    // the participant is listed
     $this->get($course->path())
-      ->assertSee($user->first_name.', '.substr($user->last_name, 0,1));
+    ->assertSee($user->first_name.', '.substr($user->last_name, 0,1));
   }
 
   /** @test */
-  public function an_member_can_give_feedback()
+  public function a_member_can_give_feedback()
   {
     // given we have an authenticated user
+    $this->withExceptionHandling();
     $user = create('App\User');
     $user->assignRole('member');
     $this->signIn($user);
@@ -73,9 +75,10 @@ class ParticipateInCourseTest extends TestCase
   }
 
   /** @test */
-  public function an_teacher_can_give_feedback()
+  public function a_teacher_can_give_feedback()
   {
     // given we have an authenticated user
+    $this->withExceptionHandling();
     $user = create('App\User');
     $user->assignRole('teacher');
     $this->signIn($user);
@@ -95,6 +98,7 @@ class ParticipateInCourseTest extends TestCase
   public function an_manager_can_give_feedback()
   {
     // given we have an authenticated user
+    $this->withExceptionHandling();
     $user = create('App\User');
     $user->assignRole('manager');
     $this->signIn($user);
@@ -113,6 +117,7 @@ class ParticipateInCourseTest extends TestCase
   public function an_pending_cannot_give_feedback()
   {
     // given we have an authenticated user
+    $this->withExceptionHandling();
     $user = create('App\User');
     $user->assignRole('pending');
     $this->signIn($user);

@@ -15,7 +15,7 @@ class CourseTest extends TestCase
   public function setUp()
   {
     parent::setUp();
-    $this->teacher =create('App\Teacher');
+    $this->teacher = create('App\Teacher');
     $this->participants = factory('App\Participant', random_int(3,13))->create(
       [
         'course_id'=>$this->teacher->course_id,

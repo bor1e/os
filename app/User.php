@@ -15,8 +15,17 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'first_name', 'last_name', 'gender', 'email', 'password',
+        'first_name', 'last_name', 'gender', 'email', 'password', 'jewish', 'email_verification_token'
     ];
+
+    /**
+         *  The event map for the model.
+         *
+         *  @var array
+         */
+        protected $events = [
+            'created' => UserHasRegistered::class,
+        ];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -26,6 +35,7 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
 
     /**
      * A user may have multiple roles.
@@ -88,6 +98,31 @@ class User extends Authenticatable
       return $this->belongsToMany('App\Course','participants');
     }
 
+    /**
+     *  Get the email verification url.
+     *
+     *  @return string
+     */
+
+    public function email_verification_token()
+    {
+      return [
+        'email_verification_token' => str_random(60),
+      ];
+    }
+
+    public function verifyEmail()
+    {
+        $this->email_verification_token = null;
+        $this->save();
+
+        return $this;
+    }
+    
+    public function getEmailVerificationUrlAttribute()
+    {
+        return route('verify_email', ['token' => $this->email_verification_token]);
+    }
     /*
     select `courses`.*, `participants`.`a`
     from `courses`

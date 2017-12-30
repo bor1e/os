@@ -26,6 +26,8 @@ class CreateUsersTable extends Migration
             $table->string('phone')->nullable();
             $table->text('notes')->nullable();
             $table->string('email')->unique();
+            $table->string('email_verification_token')->nullable();
+            $table->boolean('jewish'); //is part of a synagoge or of a community?
             $table->string('password');
             $table->string('assignedBy')->nullable();
             $table->rememberToken();

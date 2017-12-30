@@ -74,7 +74,7 @@
 
           @else
 
-          <li class="nav-item dropdown">
+          <li class="nav-item mt-1 dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               {{ Auth::user()->first_name }} <span class="caret"></span>
             </a>
@@ -103,6 +103,11 @@
   </nav>
 </header>
 <main role="main" class="container">
+  @if (session()->has('message'))
+
+  {{ session('message') }}
+  @endif
+  
   @yield('content')
 
 

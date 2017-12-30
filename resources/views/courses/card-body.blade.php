@@ -1,6 +1,13 @@
 <div class="tab-pane fade show active" id="nav-info-{{ $course->id }}" role="tabpanel" aria-labelledby="nav-info-tab">
+
   <h4>{{$course->title}}</h4>
-  <p class="h4"><span class="badge badge-primary">{{ array('Sonntag','Montag', 'Dienstag', 'Mittwoch','Donnerstag', 'Freitag','Samstag')[date('w', strtotime($course->datetimetz))] .' ('.date('d.m', strtotime($course->datetimetz)).'), um ' . date('H:i', strtotime($course->datetimetz)) }}</span></p>
+
+  <!div class="row">
+    <!div class="col-sm-3">
+      <p class="h5 mr-auto"><span class="badge badge-primary">{{ array('Sonntag','Montag', 'Dienstag', 'Mittwoch','Donnerstag', 'Freitag','Samstag')[date('w', strtotime($course->datetimetz))] .' ('.date('d.m', strtotime($course->datetimetz)).'), um ' . date('H:i', strtotime($course->datetimetz)) }}</span></p>
+    <!/div>
+  <!/div>
+
   <p class="card-text">{{ $course->description }}</p>
   @can('participateInCourse')
     @if ($course->participants()->where('user_id','=',Auth::id())->count())

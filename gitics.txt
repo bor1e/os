@@ -10,8 +10,8 @@ git push origin :the_remote_branch
 
 
 # factories
-$ts = factory('App\Teacher', 30)->create()
-$ts->each(function ($t) { factory('App\Participant', random_int(3, 40))->create(['course_id'=>$t->course_id]);});
+$ts = factory('App\Teacher', 5)->create()
+$ts->each(function ($t) { factory('App\Participant', random_int(3, 20))->create(['course_id'=>$t->course_id]);});
 
 #create snippets
 

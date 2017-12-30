@@ -56,13 +56,15 @@ class UserManagementTest extends TestCase
     /** @test */
     public function not_authenticated_user_cannot_access_shomer_route()
     {
-      $this->expectException('Illuminate\Auth\AuthenticationException');
-      $this->get('/shomer/10/admin');
+      $this->withExceptionHandling();
+      //$this->expectException('Illuminate\Auth\AuthenticationException');
+      $this->get('/shomer/10/admin')->assertStatus(302)->assertRedirect('/login');
     }
 
     /** @test */
     public function an_authenticated_user_who_is_manager_can_assign_role_member()
     {
+      $this->withExceptionHandling();
       $user = create('App\User');
       $manager = $this->createUserWithPermissionTo('manageUsers');
       $this->signIn($manager);
@@ -103,10 +105,11 @@ class UserManagementTest extends TestCase
     /** @test */
     public function an_authenticated_user_who_is_manager_cannot_assign_role_manager()
     {
+      $this->withExceptionHandling();
       $user = create('App\User');
       $manager = $this->createUserWithPermissionTo('manageUsers');
       $this->signIn($manager);
-      $this->expectException('Symfony\Component\HttpKernel\Exception\HttpException');
-      $this->get('/shomer/'.$user->id.'/manager');
+      //$this->expectException('Symfony\Component\HttpKernel\Exception\HttpException');
+      $response = $this->get('/shomer/'.$user->id.'/manager')->assertStatus(451);
     }
 }
