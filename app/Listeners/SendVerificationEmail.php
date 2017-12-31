@@ -3,6 +3,8 @@
 namespace App\Listeners;
 
 use App\Events\UserHasRegistered;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\UserHasRegisteredMail;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 

@@ -94,6 +94,7 @@ $factory->define(App\User::class, function (Faker $faker) {
         'notes' => $faker->sentences(5,true),
         'email' => $faker->unique()->safeEmail,
         'password' => $password ?: $password = bcrypt('secret'),
+#        'password_confirmation' => $password,
         'assignedBy' => $faker->randomElement(array('Chana','Elyahu','Yochewed','')),
         'remember_token' => str_random(10),
     ];

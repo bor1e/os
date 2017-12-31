@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Events\UserHasRegistered;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -19,13 +20,13 @@ class User extends Authenticatable
     ];
 
     /**
-         *  The event map for the model.
-         *
-         *  @var array
-         */
-        protected $events = [
-            'created' => UserHasRegistered::class,
-        ];
+     *  The event map for the model.
+     *
+     *  @var array
+     */
+     protected $dispatchesEvents = [
+        'created' => UserHasRegistered::class,
+    ];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -118,7 +119,7 @@ class User extends Authenticatable
 
         return $this;
     }
-    
+
     public function getEmailVerificationUrlAttribute()
     {
         return route('verify_email', ['token' => $this->email_verification_token]);

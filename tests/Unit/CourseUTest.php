@@ -9,7 +9,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class CourseUTest extends TestCase
 {
-  use DatabaseMigrations, \MailTracking;
+  use DatabaseMigrations;
 
   public function setUp()
   {
@@ -29,20 +29,5 @@ class CourseUTest extends TestCase
     $this->assertCount(1, $this->course->users());
   }
 
-  /** @test */
-  public function testEmail()
-  {
-    $email = 'johndoe@gmail.com';
-
-   $response = $this->post('/register', [
-       'first_name' => 'John',
-       'last_name' => 'Doe',
-       'email' => $email,
-       'password' => 'secret',
-       'password_confirmation' => 'secret'
-   ]);
-
-   $this->seeEmailWasSent();
-  }
 
 }
