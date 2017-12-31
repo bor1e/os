@@ -30,7 +30,7 @@ class Course extends Model
 
     public function owner()
     {
-      return $this->belongsTo('App\Teacher', 'id', 'course_id');
+      return $this->belongsTo('App\Teacher','id' ,'course_id');
     }
 
     public function hasTeacher()
@@ -46,6 +46,11 @@ class Course extends Model
     public function addParticipant($participant)
     {
         return $this->participants()->create($participant);
+    }
+
+    public function link()
+    {
+        return 'https://global.gotomeeting.com/join/'.$this->g2m_id;
     }
 
     public function feedbacks()

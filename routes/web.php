@@ -37,6 +37,8 @@ Route::get('/courses', 'CoursesController@index');
 Route::get('/courses/create', 'CoursesController@create')->middleware('can:create,App\Course');
 //Route::post('/courses/{course}/update', 'CoursesController@edit');
 Route::get('/courses/{course}', 'CoursesController@show');
+Route::get('/courses/{course}/edit', 'CoursesController@edit');
+Route::post('/courses/{course}/edit', 'CoursesController@update');
 Route::post('/courses/{course}/enroll', 'ParticipantsController@store')->middleware('can:participateInCourse');
 Route::post('/courses/{course}/revokeEnrollment', 'ParticipantsController@destroy')->middleware('can:participateInCourse');
 Route::post('/courses/{course}/feedback', 'CourseFeedbacksController@store');

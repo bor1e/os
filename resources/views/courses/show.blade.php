@@ -1,10 +1,19 @@
 @extends('layouts.app')
 
 @section('content')
-  <div class="mt-3">
-        <h1>{{$course->title}}</h1>
-        <p class="h4"><span class="badge badge-pill badge-primary">{{ array('Sonntag','Montag', 'Dienstag', 'Mittwoch','Donnerstag', 'Freitag','Samstag')[date('w', strtotime($course->datetimetz))] .' ('.date('d.m', strtotime($course->datetimetz)).'), um ' . date('H:i', strtotime($course->datetimetz)) }}</span></p>
-        <h4 class="muted-text">{{$course->description}}</h4>
+
+  <div class="row mt-3">
+    <div class="col-8">
+      <h1>{{$course->title}}</h1>
+      <p class="h4"><span class="badge badge-pill badge-primary">{{ array('Sonntag','Montag', 'Dienstag', 'Mittwoch','Donnerstag', 'Freitag','Samstag')[date('w', strtotime($course->datetimetz))] .' ('.date('d.m', strtotime($course->datetimetz)).'), um ' . date('H:i', strtotime($course->datetimetz)) }}</span></p>
+      <h4 class="muted-text">{{$course->description}}</h4>
+    </div>
+
+    @can('update', $course)
+    <div class="col-4 text-right">
+        <a href="{{ $course->path() }}/edit" class="btn btn-success">Edit</a>
+    </div>
+    @endcan
   </div>
   <hr>
   <p class="lead">
@@ -17,6 +26,11 @@
       <i>A teacher will be assigned soon.</i>
     @endif
   </p>
+  @can('participateInCourse')
+    <p class="lead">
+      <a href="{{ $course->link() }}" class="btn btn-primary">GoToMeeting</a>
+    </p>
+  @endcan
   <hr>
   @cannot('addFeedback')
     <ul class="list-group">

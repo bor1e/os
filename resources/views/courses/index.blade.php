@@ -77,15 +77,10 @@
     </div>
       @can('create', App\Course::class)
         <div class="col-1 mt-4">
-          <p>
-
-        <a  href="/courses/create" class="btn btn-success">Create Course</a>
-      <!--@ if (Auth::user()->hasRole('manager'))
-        Manager!
-      @ elseif (Auth::user()->hasRole('teacher'))
-        Teacher!
-      @ endif
---></p>
+          <p class="lead">
+            <a  href="/courses/create" class="btn btn-success">Create Course</a>
+          </p>
+        </div>
       @endcan
 
     </div>

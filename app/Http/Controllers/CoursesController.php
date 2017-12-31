@@ -11,7 +11,8 @@ class CoursesController extends Controller
 
   public function __construct()
   {
-      $this->middleware(['auth','can:create,App\Course'])->only('store');
+    $this->middleware('auth')->except(['index','show']);
+    $this->middleware('can:create,App\Course')->only(['create','store']);
   }
     /**
      * Display a listing of the resource.
@@ -91,7 +92,8 @@ class CoursesController extends Controller
      */
     public function edit(Course $course)
     {
-        //
+      $this->authorize('update',$course);
+        return view('courses.edit', compact('course'));
     }
 
     /**
@@ -103,7 +105,18 @@ class CoursesController extends Controller
      */
     public function update(Request $request, Course $course)
     {
-        //
+      $this->authorize('update',$course);
+      $new_course = Course::findOrFail($course)->first();
+      $new_course->title = $request->title;
+      $new_course->datetimetz = $request->datetimetz;
+      $new_course->description = $request->description;
+      $new_course->body = $request->body;
+      $new_course->language = $request->language;
+      $new_course->slug = $request->slug;
+      $new_course->g2m_id = $request->g2m_id;
+      $new_course->save();
+
+      return redirect($course->path());
     }
 
     /**

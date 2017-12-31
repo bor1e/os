@@ -51,7 +51,7 @@ class CoursePolicy
      */
     public function update(User $user, Course $course)
     {
-        return $course->owner()->user_id == $user->id;
+        return $course->owner()->first()->user_id == $user->id;
     }
 
     /**
