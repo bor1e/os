@@ -46,4 +46,15 @@ class RegisterMailTest extends TestCase
              return $mail->hasTo($user->email);
            });
     }
+
+    /** @test */
+    public function a_user_can_verify_email()
+    {
+      $user = create('App\User');
+      create('App\Role', ['name'=>'email_confirmed']);
+      $this->withoutExceptionHandling()->get(route('verify_email', ['token' => $user->email_verification_token]))
+        ->assertRedirect('/courses');
+      $this->assertNull($user->fresh()->email_verification_token);
+
+    }
 }
