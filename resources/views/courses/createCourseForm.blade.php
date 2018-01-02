@@ -67,6 +67,19 @@
           @endif
         </div>
       </div>
+      @if (Auth::user()->hasRole('manager'))
+        <div class="form-group row {{ $errors->has('dedication') ? ' has-error' : '' }}">
+          <label class="col-lg-3 col-form-label form-control-label">Dedication</label>
+          <div class="col-lg-9">
+            <textarea class="form-control" type="text" rows="2" name="dedication" required>{{ old('dedication') }}</textarea>
+            @if ($errors->has('dedication'))
+                <span class="help-block">
+                    <strong>{{ $errors->first('dedication') }}</strong>
+                </span>
+            @endif
+          </div>
+        </div>
+      @endif
       <div class="form-group row {{ $errors->has('title') ? ' has-error' : '' }}">
         <label class="col-lg-3 col-form-label form-control-label">Language</label>
         <div class="col-lg-9">
