@@ -9,6 +9,23 @@ class Course extends Model
 {
     protected $guarded = [];
 
+
+    /*
+     * Get the route key name for Laravel.
+     *
+     * @return string
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
+     */
+
+    public function channel()
+    {
+        return  $this->belongsTo(Channel::class);
+    }
+
     public function participants()
     {
       return $this->hasMany('App\Participant');
@@ -40,7 +57,7 @@ class Course extends Model
 
     public function teacher()
     {
-      return User::find($this->owner()->first()->id)->first();
+      return User::find($this->owner()->first()->user_id);
     }
 
     public function addParticipant($participant)
@@ -68,6 +85,6 @@ class Course extends Model
 
     public function path()
     {
-        return '/courses/' . $this->id;
+        return "/courses/{$this->channel->name}/{$this->id}";
     }
 }

@@ -4,18 +4,16 @@ namespace Tests\Unit;
 
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class CourseUTest extends TestCase
 {
-  use DatabaseMigrations;
 
   public function setUp()
   {
       parent::setUp();
-      $this->course = factory('App\Course')->create();
-      $this->user = factory('App\User')->create();
+      $this->course = create('App\Course');
+      $this->user = create('App\User');
   }
 
   /** @test */
@@ -29,5 +27,16 @@ class CourseUTest extends TestCase
     $this->assertCount(1, $this->course->users());
   }
 
+  /** @test */
+  public function a_course_belongsTo_a_channel()
+  {
+    $this->assertInstanceOf('App\Channel', $this->course->channel);
+  }
+
+  /** @test */
+  public function a_course_has_a_string_path()
+  {
+    $this->assertEquals('/courses/'.$this->course->channel->name. '/'. $this->course->id ,$this->course->path() );
+  }
 
 }

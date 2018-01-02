@@ -14,11 +14,13 @@ class EmailController extends Controller
       $user = User::whereEmailVerificationToken($token)->first();
 
       if (is_null($user)) {
-          return redirect('/home')->with('message', 'The email confirmation link you followed has expired. Click "Resend confirmation" from Settings for a new one.');
+          return redirect('/courses')
+                  ->with('message', 'The email confirmation \
+                              link you followed has expired.');
       }
 
       $user->verifyEmail();
 
-      return redirect('/home')->with('message', 'Your account is now verified.');
+      return redirect('/courses')->with('message', 'Your account is now verified.');
   }
 }

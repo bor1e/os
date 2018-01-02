@@ -57,6 +57,7 @@
         <li>City: {{ $course->teacher()['city'] }}</li>
       </ul>
     </p>
+    <p class="lead"><a href="/courses?by={{$course->teacher()->last_name}}">Show all</a> <strong>Courses</strong> from this Teacher<p>
     <a href="fb.com/{{ $course->teacher()['social'] }}" class="btn btn-primary">Follow on Facebook</a>
     @endcannot
   </div>

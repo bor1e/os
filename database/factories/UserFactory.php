@@ -13,17 +13,28 @@ use Faker\Generator as Faker;
 |
 */
 
+$factory->define(App\Channel::class, function (Faker $faker) {
+
+    return [
+      'name' => $faker->word,
+    ];
+});
+
 $factory->define(App\Course::class, function (Faker $faker) {
 
     return [
         'title' => $faker->text(60),
-        'datetimetz' => $faker->dateTimeBetween('now', 1517368597),
+        'datetimetz' => $faker->dateTimeInInterval($startdate='now', $interval='+ 2 days'),#$faker->randomElement(array('11','12','13','14')).'.02.2018 15:45',
         'description' => $faker->text(160),
         'body' => $faker->text(500),
         'language' => $faker->randomElement(array('de','ru','en','he')),
         'slug' => $faker->slug,
-        'g2m_id' => $faker->biasedNumberBetween(100000000, 999999999),
+        'dedication' => $faker->text(60),
+        'g2m_id' => intval($faker->biasedNumberBetween(100000000, 999999999)),
         'cycle' => $faker->randomElement(array(0,1,2)),
+        'channel_id' => function () {
+          return factory('App\Channel')->create()->id;
+        },
       ];
 });
 
@@ -59,7 +70,7 @@ $factory->define(App\Role::class, function (Faker $faker) {
 
 $factory->define(App\Permission::class, function (Faker $faker) {
     return [
-      'name' => $faker->randomElement(array('manager','teacher','member','pending','declined')),
+      'name' => $faker->randomElement(array('teacher','member','pending','declined')),
     ];
 });
 

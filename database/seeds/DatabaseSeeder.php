@@ -11,11 +11,23 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+      \App\Channel::create(['name'=>'kaschrut']);
+      \App\Channel::create(['name'=>'halacha']);
+      \App\Channel::create(['name'=>'schabbat']);
+      \App\Channel::create(['name'=>'holidays']);
+      \App\Channel::create(['name'=>'tanach']);
+      \App\Channel::create(['name'=>'israel']);
+      \App\Channel::create(['name'=>'lifestyle']);
+      \App\Channel::create(['name'=>'philosophy']);
+      \App\Channel::create(['name'=>'prayer']);
+
+
       \App\Role::create(['name'=>'manager']);
       \App\Role::create(['name'=>'teacher']);
       \App\Role::create(['name'=>'member']);
       \App\Role::create(['name'=>'pending']);
       \App\Role::create(['name'=>'declined']);
+      \App\Role::create(['name'=>'email_confirmed']);
 
       \App\Permission::create(['name'=>'manageUsers']);
       \DB::table('permission_role')->insert([

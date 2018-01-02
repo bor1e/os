@@ -40,7 +40,16 @@
       <div class="collapse navbar-collapse" id="navbarNavDropdown">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item mt-1">
-            <a class="nav-link" href="/courses">Courses</a>
+            <div class="btn-group">
+              <a href="/courses" class="btn btn-success">Courses</a>
+              <button type="button" class="btn btn-success dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">    <span class="sr-only">Toggle Dropdown</span>
+              </button>
+              <div class="dropdown-menu">
+                @foreach ($channels as $channel)
+                <a class="dropdown-item" href="/courses/{{$channel->name}}">{{$channel->name}}</a>
+                @endforeach
+              </div>
+            </div>
           </li>
           <li class="nav-item  mt-1">
             <a class="nav-link" href="/about-us">About Us</a>
@@ -107,7 +116,7 @@
 
   {{ session('message') }}
   @endif
-  
+
   @yield('content')
 
 

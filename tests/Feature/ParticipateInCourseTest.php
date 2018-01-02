@@ -25,9 +25,9 @@ class ParticipateInCourseTest extends TestCase
   /** @test */
   public function unauthenticated_users_cannot_participate()
   {
-    $teacher = create('App\Teacher');
+    $course = create('App\Course');
     $this->withExceptionHandling()//$this->expectException('Illuminate\Auth\AuthenticationException');
-        ->post('/courses/'. $teacher->course_id.'/enroll',[])->assertRedirect('/login');
+        ->post($course->path().'/enroll',[])->assertRedirect('/login');
 
   }
 
@@ -59,18 +59,18 @@ class ParticipateInCourseTest extends TestCase
   public function a_member_can_give_feedback()
   {
     // given we have an authenticated user
-    $this->withExceptionHandling();
+  //  $this->withExceptionHandling();
     $user = create('App\User');
     $user->assignRole('member');
+    $user = $this->createUserWithPermissionTo('addFeedback');
     $this->signIn($user);
 
-    $feedback = factory('App\CourseFeedback')->create(['user_id'=>$user->id]);
-    $teacher = factory('App\Teacher')->create(['course_id'=>$feedback->course_id]);
-    $course_path = '/courses/'. $feedback->course_id;
+    $course = create('App\Course');
+    $feedback = make('App\CourseFeedback', ['user_id'=>$user->id]);
 
-    $this->post($course_path .'/feedback', $feedback->toArray());
+    $this->post($course->path() .'/feedback', $feedback->toArray());
 
-    $this->get($course_path)
+    $this->get($course->path())
       ->assertSee($feedback->body);
   }
 
@@ -81,15 +81,15 @@ class ParticipateInCourseTest extends TestCase
     $this->withExceptionHandling();
     $user = create('App\User');
     $user->assignRole('teacher');
+    $user = $this->createUserWithPermissionTo('addFeedback');
     $this->signIn($user);
 
-    $feedback = factory('App\CourseFeedback')->create(['user_id'=>$user->id]);
-    $teacher = factory('App\Teacher')->create(['course_id'=>$feedback->course_id]);
-    $course_path = '/courses/'. $feedback->course_id;
+    $course = create('App\Course');
+    $feedback = make('App\CourseFeedback', ['user_id'=>$user->id]);
 
-    $this->post($course_path .'/feedback', $feedback->toArray());
+    $this->post($course->path() .'/feedback', $feedback->toArray());
 
-    $this->get($course_path)
+    $this->get($course->path())
       ->assertSee($feedback->body);
   }
 
@@ -101,15 +101,15 @@ class ParticipateInCourseTest extends TestCase
     $this->withExceptionHandling();
     $user = create('App\User');
     $user->assignRole('manager');
+    $user = $this->createUserWithPermissionTo('addFeedback');
     $this->signIn($user);
 
-    $feedback = factory('App\CourseFeedback')->create(['user_id'=>$user->id]);
-    $teacher = factory('App\Teacher')->create(['course_id'=>$feedback->course_id]);
-    $course_path = '/courses/'. $feedback->course_id;
+    $course = create('App\Course');
+    $feedback = make('App\CourseFeedback', ['user_id'=>$user->id]);
 
-    $this->post($course_path .'/feedback', $feedback->toArray());
+    $this->post($course->path() .'/feedback', $feedback->toArray());
 
-    $this->get($course_path)
+    $this->get($course->path())
       ->assertSee($feedback->body);
   }
 
@@ -122,13 +122,12 @@ class ParticipateInCourseTest extends TestCase
     $user->assignRole('pending');
     $this->signIn($user);
 
-    $feedback = factory('App\CourseFeedback')->create(['user_id'=>$user->id]);
-    $teacher = factory('App\Teacher')->create(['course_id'=>$feedback->course_id]);
-    $course_path = '/courses/'. $feedback->course_id;
+    $course = create('App\Course');
+    $feedback = make('App\CourseFeedback', ['user_id'=>$user->id]);
 
-    $this->post($course_path .'/feedback', $feedback->toArray())->assertStatus(403);
+    $this->post($course->path() .'/feedback', $feedback->toArray())->assertStatus(403);
 
-    $this->get($course_path)
+    $this->get($course->path())
       ->assertSee('Please Update your User Information, in order to be approved by the Admins.');
   }
 }

@@ -99,28 +99,16 @@ class User extends Authenticatable
       return $this->belongsToMany('App\Course','participants');
     }
 
-    /**
-     *  Get the email verification url.
-     *
-     *  @return string
-     */
-
-    public function email_verification_token()
-    {
-      return [
-        'email_verification_token' => str_random(60),
-      ];
-    }
 
     public function verifyEmail()
     {
         $this->email_verification_token = null;
         $this->save();
-
+        $this->assignRole('email_confirmed');
         return $this;
     }
 
-    public function getEmailVerificationUrlAttribute()
+    public function getEmailVerificationUrl()
     {
         return route('verify_email', ['token' => $this->email_verification_token]);
     }

@@ -1,17 +1,23 @@
 @component('mail::message')
-# Email bestätigen
+<p style="text-align:right">
+  בס"ד
+</p>
+![Jüdische Studien][logo]
 
+[logo]: {{asset('/images/logo.png')}} "Logo"
+# Email bestätigen
 @if ($user->gender == 'male')
   Lieber {{ $user->first_name }},
 @else
   Liebe {{ $user->first_name }},
 @endif
+<br>
 Bitte bestätigen Sie Ihre Email Adresse:
 
-@component('mail::button', ['url' => $user->email_verification_url])
+@component('mail::button', ['url' => $user->getEmailVerificationUrl()])
 Jetzt bestätigen
 @endcomponent
 
-Vielen Dank<br>
+Vielen Dank,<br>
 {{ config('app.name') }}
 @endcomponent

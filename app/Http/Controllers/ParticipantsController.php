@@ -40,7 +40,7 @@ class ParticipantsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Course $course)
+    public function store($channel, Course $course)
     {
 //      dd($course);
       $course->addParticipant([
@@ -98,7 +98,7 @@ class ParticipantsController extends Controller
      * @param  \App\Participant  $participant
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Course $course)
+    public function destroy($channel, Course $course)
     {
         Participant::where('user_id','=',auth()->id())->where('course_id','=',$course->id)->delete();
         return back();

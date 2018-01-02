@@ -17,8 +17,8 @@ class CreateTeachersTable extends Migration
             $table->increments('id');
             $table->integer('user_id')->unsigned();
             $table->integer('course_id')->unsigned();
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('course_id')->references('id')->on('courses')->onDelete('cascade');
+            #$table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            #$table->foreign('course_id')->references('id')->on('courses')->onDelete('cascade');
             $table->unique('course_id');
             $table->timestamps();
         });

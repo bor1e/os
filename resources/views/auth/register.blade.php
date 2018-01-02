@@ -13,7 +13,7 @@
                         <p>Please note, that we are going to review all applications, for this educational plattform. Until your application has been approved, your use of our services is limited. In order to make the process as short and easy as possible, please provide authentical information. If you enter wrong details, we may discard your registration.</p>
                         <div class="form-check{{ $errors->has('gender') ? ' has-error' : '' }}">
                           <label class="form-check-label">
-                            <input class="form-check-input" type="radio" name="gender" id="male" value="male" checked>
+                            <input class="form-check-input" type="radio" name="gender" id="male" value="male">
                           Male
                           </label>
                           @if ($errors->has('gender'))
@@ -70,7 +70,7 @@
                         </div>
                         <div class="form-check{{ $errors->has('jewish') ? ' has-error' : '' }}">
                           <label class="form-check-label">
-                            <input class="form-check-input" type="radio" name="jewish" value="0">
+                            <input class="form-check-input" type="radio" name="jewish" value="0" checked>
                             No
                           </label>
                         </div>

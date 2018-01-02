@@ -24,7 +24,9 @@ class CreateCoursesTable extends Migration
           $table->string('language');
           $table->string('slug');
           $table->integer('g2m_id');
+          $table->text('dedication')->nullable();
           $table->integer('cycle')->default(0);
+          $table->integer('channel_id')->unsigned();
           $table->timestamps();
         });
     }

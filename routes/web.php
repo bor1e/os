@@ -11,6 +11,12 @@
 |
 */
 
+#Route::get('/mailable', function () {
+#    $user = App\User::find(1);
+#
+#    return new App\Mail\UserHasRegisteredMail($user);
+#});
+
 Route::get('/', function () {
     return view('alt');
 })->name('home');
@@ -36,12 +42,13 @@ Route::post('contact', 'ContactForm@send')->name('contact');
 Route::get('/courses', 'CoursesController@index');
 Route::get('/courses/create', 'CoursesController@create')->middleware('can:create,App\Course');
 //Route::post('/courses/{course}/update', 'CoursesController@edit');
-Route::get('/courses/{course}', 'CoursesController@show');
-Route::get('/courses/{course}/edit', 'CoursesController@edit');
-Route::post('/courses/{course}/edit', 'CoursesController@update');
-Route::post('/courses/{course}/enroll', 'ParticipantsController@store')->middleware('can:participateInCourse');
-Route::post('/courses/{course}/revokeEnrollment', 'ParticipantsController@destroy')->middleware('can:participateInCourse');
-Route::post('/courses/{course}/feedback', 'CourseFeedbacksController@store');
+Route::get('/courses/{channel}', 'CoursesController@index');
+Route::get('/courses/{channel}/{course}', 'CoursesController@show');
+Route::get('/courses/{channel}/{course}/edit', 'CoursesController@edit');
+Route::post('/courses/{channel}/{course}/edit', 'CoursesController@update');
+Route::post('/courses/{channel}/{course}/enroll', 'ParticipantsController@store')->middleware('can:participateInCourse');
+Route::post('/courses/{channel}/{course}/revokeEnrollment', 'ParticipantsController@destroy')->middleware('can:participateInCourse');
+Route::post('/courses/{channel}/{course}/feedback', 'CourseFeedbacksController@store');
 Route::post('/courses', 'CoursesController@store')->middleware('can:create,App\Course');
 
 Auth::routes();

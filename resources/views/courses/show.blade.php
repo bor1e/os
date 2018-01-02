@@ -19,6 +19,12 @@
   <p class="lead">
     {{ $course->body }}
   </p>
+  @if ($course->dedication)
+    <p class="text-center">
+      <strong>This is course is dedicated to:</strong><br>
+      {{ $course->dedication }}
+    </p>
+  @endif
   <p class="text-right">
     @if ($course->hasTeacher())
     <strong>Teacher:</strong> {{$course->teacher()->title .' '. $course->teacher()->first_name .' '.$course->teacher()->last_name}}

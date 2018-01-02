@@ -19,24 +19,13 @@ class CreateCourseTest extends TestCase
     /** @test */
     public function an_authenticated_teacher_can_create_course()
     {
-      // given an authenticated teacher and a course
       $teacher = create('App\User');
       $teacher->assignRole('teacher');
-      //$this->signIn($teacher);
-      $this->be($teacher);
-      $course = make('App\Course', ['datetimetz'=>'08.01.2018 18:30']);
+      $this->withoutExceptionHandling()->signIn($teacher);
+      $course = make('App\Course', ['datetimetz'=>'18.11.2018 18:30', 'title'=>'test exists']);
+      $response = $this->post('/courses', $course->toArray());
 
-      // when hitting endpoint to create a course
-      $res = $this->post('/courses', $course->toArray());
-
-      /*create('App\Teacher', [
-        'user_id'=>$teacher->id,
-        'course_id'=>\App\Course::where('title','=',$course->title)->first()->id,
-      ]);
-      */
-      // then, when we visit all courses
-      $this->get('/courses')->assertSee($course->title);
-      $this->get($course->path())
+      $this->get($response->headers->get('Location'))
             ->assertSee($course->title)
             ->assertSee($teacher->last_name);
     }
@@ -60,10 +49,9 @@ class CreateCourseTest extends TestCase
     public function a_manager_can_edit_a_course()
     {
       // a manager can edit an exisiting course
-      $manager = $this->createUserWithPermissionTo('manageUsers');
+      $manager = $this->createUserWithPermissionTo('update');
       $manager->assignRole('manager');
-      $this->signIn($manager);
-      #$this->be($manager);
+      $this->withoutExceptionHandling()->signIn($manager);
       $course = create('App\Course');
       $this->get($course->path())->assertSee($course->title);
       $course->title = 'New Title '. \Carbon\Carbon::today()->toDateTimeString();
@@ -80,14 +68,23 @@ class CreateCourseTest extends TestCase
       // a manager can edit an exisiting course
       $user = $this->createUserWithPermissionTo('update');
       $user->assignRole('teacher');
-      $this->signIn($user);
+      $this->withoutExceptionHandling()->signIn($user);
       $teacher = create('App\Teacher', ['user_id'=>$user->id]);
-      $course = \App\Course::find($teacher->course_id)->first();
+      $course = \App\Course::find($teacher->course_id);
       $course->title = 'New Title '. \Carbon\Carbon::today()->toDateTimeString();
       $this->post($course->path() . '/edit', $course->toArray());
       $this->get($course->path())
         ->assertSee('New Title '. \Carbon\Carbon::today()->toDateTimeString());
     }
 
-
+    /** @test */
+    public function a_course_needs_to_have_a_title()
+    {
+        $user = create('App\User');
+        $user->assignRole('manager');
+        $this->withExceptionHandling()->signIn($user);
+        $course = make('App\Course', ['title'=>null]);
+        $this->post('/courses', $course->toArray())
+          ->assertSessionHasErrors('title');
+    }
 }
