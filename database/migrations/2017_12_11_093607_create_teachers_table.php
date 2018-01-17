@@ -15,11 +15,12 @@ class CreateTeachersTable extends Migration
     {
         Schema::create('teachers', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id')->unsigned();
-            $table->integer('course_id')->unsigned();
-            #$table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            #$table->foreign('course_id')->references('id')->on('courses')->onDelete('cascade');
-            $table->unique('course_id');
+            $table->string('first_name');
+            $table->string('last_name');
+            $table->string('email')->unique();
+            $table->enum('gender', ['male','female']);
+            $table->integer('salary')->nullable();
+            $table->integer('profile_id')->unsigned();
             $table->timestamps();
         });
     }

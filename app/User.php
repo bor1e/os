@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'first_name', 'last_name', 'gender', 'email', 'password', 'jewish', 'email_verification_token'
+        'first_name', 'last_name', 'gender', 'email', 'password', 'profile_id', 'email_verification_token'
     ];
 
     /**
@@ -34,7 +34,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 'remember_token','email_verification_token'
     ];
 
 
@@ -55,7 +55,6 @@ class User extends Authenticatable
      */
     public function assignRole($role)
     {
-            //dd($this->roles()->get());
         return $this->roles()->save(
             Role::whereName($role)->firstOrFail()
         );
@@ -76,11 +75,9 @@ class User extends Authenticatable
 
     public function revokeRole($role)
     {
-        //if ($this->hasRole($role)) {
         return $this->roles()->detach(
             Role::whereName($role)->firstOrFail()
         );
-        //}
     }
 
     /**
@@ -99,6 +96,10 @@ class User extends Authenticatable
       return $this->belongsToMany('App\Course','participants');
     }
 
+    public function profile()
+    {
+        return $this->hasOne(Profile::class, 'id', 'profile_id');
+    }
 
     public function verifyEmail()
     {

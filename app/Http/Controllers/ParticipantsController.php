@@ -42,20 +42,11 @@ class ParticipantsController extends Controller
      */
     public function store($channel, Course $course)
     {
-//      dd($course);
       $course->addParticipant([
         'course_id' => $course->id,
         'user_id' => auth()->id(),
       ]);
-
       return back();
-        /*
-        Participant::create([
-          'user_id' =>
-          'course_id' =>
-        ]);
-        return view('/courses/'.course_id, compact('courses'));
-        */
     }
 
     /**

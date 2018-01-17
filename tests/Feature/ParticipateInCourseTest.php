@@ -26,33 +26,28 @@ class ParticipateInCourseTest extends TestCase
   public function unauthenticated_users_cannot_participate()
   {
     $course = create('App\Course');
-    $this->withExceptionHandling()//$this->expectException('Illuminate\Auth\AuthenticationException');
-        ->post($course->path().'/enroll',[])->assertRedirect('/login');
-
+    $this->withExceptionHandling()
+      ->post($course->path().'/enroll')->assertRedirect('/login');
   }
 
   /** @test */
   public function a_participateInCourse_user_can_participate_in_course()
   {
-    $teacher = create('App\Teacher');
-    $course = \App\Course::find($teacher->course_id)->first();
-
-    // given we have an authenticated user
+    $course = create('App\Course');
+    $this->assertEquals(0, $course->participants->count());
     $user = $this->createUserWithPermissionTo('participateInCourse');
-
     $this->signIn($user);
-
-    //assert the user is not present beforehand
     $this->get($course->path())
-      ->assertSee(\App\User::find($teacher->id)->first()->last_name)
+      ->assertSee(\App\Teacher::find($course->teacher_id)->first()->last_name)
       ->assertDontSee($user->last_name);
-    //$this->assertTrue($user->hasPermission(\App\Permission::whereName('perticipateInCourse')->first()));
-    // when user enrolls in class
-    $this->post($course->path() .'/enroll', $user->toArray());
+    #$this->assertTrue($user->hasPermission(\App\Permission::whereName('perticipateInCourse')->first()));
 
-    // the participant is listed
+    $this->post($course->path() .'/enroll');
+
+    $this->assertEquals(1, $course->participants()->get()->count());
+
     $this->get($course->path())
-    ->assertSee($user->first_name.', '.substr($user->last_name, 0,1));
+          ->assertSee($user->first_name.', '.substr($user->last_name, 0,1));
   }
 
   /** @test */

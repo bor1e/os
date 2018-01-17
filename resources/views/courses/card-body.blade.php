@@ -39,7 +39,7 @@
 
 @if ($course->hasTeacher())
   <div class="tab-pane fade" id="nav-teacher-{{ $course->id }}" role="tabpanel" aria-labelledby="nav-teacher-tab">
-    <h4><a href="#{{ $course->teacher()->last_name }}">{{ $course->teacher()->title .' '. $course->teacher()->last_name }}</a></h4>
+    <h4><a href="#{{ $course->teacher->last_name }}">{{ $course->teacher->profile->title .' '. $course->teacher->last_name }}</a></h4>
     @cannot('participateInCourse')
       <ul class="list-group mt-3">
         <li class="list-group-item list-group-item-warning">
@@ -53,12 +53,12 @@
     @else
     <p class="card-text">
       <ul>
-        <li>Email: {{ $course->teacher()['email'] }}</li>
-        <li>City: {{ $course->teacher()['city'] }}</li>
+        <li>Email: {{ $course->teacher->email }}</li>
+        <li>City: {{ $course->teacher->profile->city }}</li>
       </ul>
     </p>
-    <p class="lead"><a href="/courses?by={{$course->teacher()->last_name}}">Show all</a> <strong>Courses</strong> from this Teacher<p>
-    <a href="fb.com/{{ $course->teacher()['social'] }}" class="btn btn-primary">Follow on Facebook</a>
+    <p class="lead"><a href="/courses?by={{$course->teacher->last_name}}">Show all</a> <strong>Courses</strong> from this Teacher<p>
+    <a href="fb.com/{{ $course->teacher->profile->social_profile }}" class="btn btn-primary">Follow on Facebook</a>
     @endcannot
   </div>
 @endif

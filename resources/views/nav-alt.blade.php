@@ -16,7 +16,7 @@
           </a>
         </p>
         <p class="control is-expanded">
-          <a class="button is-primary is-inverted is-outlined" href="https://goo.gl/U4pTR1">
+          <a class="button is-primary is-inverted is-outlined" href="/login">
             <span class="icon">
               <i class="fa fa-sign-in"></i>
             </span>

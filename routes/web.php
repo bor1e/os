@@ -58,6 +58,11 @@ Route::prefix('shomer')->group(function () {
   Route::middleware(['middleware' => 'can:manageUsers'])->group(function() {
     Route::get('users', 'ManageUsersController@index')->name('manageUsers');
     Route::get('/{userid}/{role}', 'ManageUsersController@assignRole');
+    Route::get('teacher', 'TeachersController@index')->name('createTeacher');
+    Route::get('teacher/create', 'TeachersController@create')->name('createTeacher');
+    Route::post('teacher/create', 'TeachersController@store');
+    Route::get('teacher/{teacher}', 'TeachersController@show')->name('editTeacher');
+    Route::post('teacher/{teacher}', 'TeachersController@update');
   });
 });
 

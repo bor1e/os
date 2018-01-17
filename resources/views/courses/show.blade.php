@@ -27,14 +27,14 @@
   @endif
   <p class="text-right">
     @if ($course->hasTeacher())
-    <strong>Teacher:</strong> {{$course->teacher()->title .' '. $course->teacher()->first_name .' '.$course->teacher()->last_name}}
+    <strong>Teacher:</strong> {{$course->teacher->profile->title .' '. $course->teacher->first_name .' '.$course->teacher->last_name}}
     @else
       <i>A teacher will be assigned soon.</i>
     @endif
   </p>
   @can('participateInCourse')
     <p class="lead">
-      <a href="{{ $course->link() }}" class="btn btn-primary">GoToMeeting</a>
+      <a href="{{ $course->gtm_id }}" class="btn btn-primary">GoToMeeting</a>
     </p>
   @endcan
   <hr>
@@ -76,7 +76,7 @@
   <p>
     @can('participateInCourse')
       <ul class="list-group">
-        @foreach ($course->users() as $user)
+        @foreach ($course->users()->get() as $user)
           <li class="list-group-item">{{ $user->first_name . ', ' . substr($user->last_name, 0,1).'.' }}</li>
         @endforeach
       </ul>

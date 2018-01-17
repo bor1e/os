@@ -9,7 +9,6 @@ class Course extends Model
 {
     protected $guarded = [];
 
-
     /*
      * Get the route key name for Laravel.
      *
@@ -31,7 +30,6 @@ class Course extends Model
       return $this->hasMany('App\Participant');
     }
 
-
     public function users()
     {
       return $this->hasManyThrough(
@@ -41,33 +39,23 @@ class Course extends Model
         'id', //model User
         'id', //model Course
         'user_id' //model Participant
-      )->get();
-    }
+      );
 
-
-    public function owner()
-    {
-      return $this->belongsTo('App\Teacher','id' ,'course_id');
-    }
-
-    public function hasTeacher()
-    {
-        return count($this->owner()->first());
     }
 
     public function teacher()
     {
-      return User::find($this->owner()->first()->user_id);
+      return $this->belongsTo(Teacher::class);
+    }
+
+    public function hasTeacher()
+    {
+        return count($this->teacher()->first());
     }
 
     public function addParticipant($participant)
     {
         return $this->participants()->create($participant);
-    }
-
-    public function link()
-    {
-        return 'https://global.gotomeeting.com/join/'.$this->g2m_id;
     }
 
     public function feedbacks()

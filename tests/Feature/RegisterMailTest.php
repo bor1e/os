@@ -17,12 +17,13 @@ class RegisterMailTest extends TestCase
     /** @test */
     public function an_UserHasRegistered_event_was_triggered()
     {
+      // TODO: change user controller according to new table
       Event::fake();
       $user = make('App\User');
       $data = $user->toArray();
       $data['password'] = $user->password;
       $data['password_confirmation'] = $user->password;
-      $response = $this->post('/register', $data);
+      $response = $this->withoutExceptionHandling()->post('/register', $data);
       Event::assertDispatched(UserHasRegistered::class, function ($event) use ($user) {
          return $event->user->email === $user->email;
      });
@@ -32,7 +33,6 @@ class RegisterMailTest extends TestCase
     public function an_email_is_sent_to_freshly_registered_user()
     {
       Mail::fake();
-
       $user = make('App\User');
       $data = $user->toArray();
       $data['password'] = $user->password;
@@ -52,7 +52,8 @@ class RegisterMailTest extends TestCase
     {
       $user = create('App\User');
       create('App\Role', ['name'=>'email_confirmed']);
-      $this->withoutExceptionHandling()->get(route('verify_email', ['token' => $user->email_verification_token]))
+      $this->withoutExceptionHandling()
+        ->get(route('verify_email', ['token' => $user->email_verification_token]))
         ->assertRedirect('/courses');
       $this->assertNull($user->fresh()->email_verification_token);
 

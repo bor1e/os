@@ -71,7 +71,7 @@
         <div class="form-group row {{ $errors->has('dedication') ? ' has-error' : '' }}">
           <label class="col-lg-3 col-form-label form-control-label">Dedication</label>
           <div class="col-lg-9">
-            <textarea class="form-control" type="text" rows="2" name="dedication" required>{{ old('dedication') }}</textarea>
+            <textarea class="form-control" type="text" rows="2" name="dedication">{{ old('dedication') }}</textarea>
             @if ($errors->has('dedication'))
                 <span class="help-block">
                     <strong>{{ $errors->first('dedication') }}</strong>
@@ -111,7 +111,7 @@
       <div class="form-group row {{ $errors->has('g2m_id') ? ' has-error' : '' }}">
           <label class="col-lg-3 col-form-label form-control-label">GoToMeetingId</label>
           <div class="col-lg-9">
-              <input class="form-control" type="text" name="g2m_id" placeholder="123456789" value="{{ old('g2m_id') }}" required>
+              <input class="form-control" type="text" name="g2m_id" placeholder="https:/global.gotomeeting.com/join/123456789" value="{{ old('g2m_id') }}" required>
               @if ($errors->has('g2m_id'))
                   <span class="help-block">
                       <strong>{{ $errors->first('g2m_id') }}</strong>

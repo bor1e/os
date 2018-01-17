@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use App\Course;
 use App\Teacher;
 use App\Channel;
-use Illuminate\Http\Request;
+use App\Http\Requests\CourseFormRequest;
+
 
 class CoursesController extends Controller
 {
@@ -26,20 +27,12 @@ class CoursesController extends Controller
         $courses = $channel->courses()->latest()->get();
       }
       else {
-        $courses = Course::where('datetimetz','>=',now())->orderBy('datetimetz')->get();
+        $courses = Course::where('date','>=',now())->orderBy('date')->orderBy('time')->get();
       }
       if($teacher_last_name=request('by')) {
-        //by Zboncak
-        $user = \App\User::where('last_name',$teacher_last_name)->firstOrFail();
-        // user id 12
-        #$teacher  = \App\Teacher::where('user_id',$user->id)->firstOrFail();
-        #$courses = $teacher->courses()->get();
-
-        #$teacher  = \App\Teacher::where('user_id',$user->id)->get()->pluck('course_id')->all();
-        #$courses = Course::find($teacher);
-        $courses = \App\Teacher::where('user_id',$user->id)->first()->courses($user->id);
-
-        //dd($courses);
+        #dd(request());
+        $teacher = Teacher::where('last_name', $teacher_last_name)->firstOrFail();
+        $courses = $teacher->courses()->get();
       }
 
       return view('courses.index', compact('courses'));
@@ -61,32 +54,25 @@ class CoursesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CourseFormRequest $request)
     {
-        $this->validate($request, [
-              'title' => 'required|min:6|max:60',
-              'body'  => 'required|min:100',
-              'description' => 'required|min:50|max:160',
-              'language' => 'required',
-              'cycle' => 'required',
-              'slug' => 'required',
-              'g2m_id' => 'required|min:9',
-              'datetimetz' => 'required|date_format:d.m.Y H:i',
-              'channel_id' => 'required|exists:channels,id',
-          ]);
-
-
         $course = Course::create([
-          'title' => $request['title'],
-          'datetimetz' => $this->convertDate($request['datetimetz']),
-          'description' => $request['description'],
-          'body' => $request['body'],
-          'language' => $request['language'],
-          'slug' => $request['slug'],
-          'dedication' => $request['dedication'],
-          'g2m_id' => $request['g2m_id'],
-          'cycle' => $request['cycle'],
-          'channel_id' => $request['channel_id'],
+          'title' => $request->title,
+          'date' => $this->convertDate($request->date),
+          'time' => $this->convertTime($request->time),
+          'description' => $request->description,
+          'body' => $request->body,
+          'language' => $request->language,
+          'slug' => $request->slug,
+          'g2m_id' => $request->g2m_id,
+          'dedication' => $request->dedication,
+          'intervall' => $request->intervall,
+          'meetings' => $request->meetings,
+          'cost' => $request->cost,
+          'channel_id' => $request->channel_id,
+          'teacher_id' => $request->teacher_id,// TODO: if user has role teacher
+          'status' => $request->status,
+          'notes' => $request->notes,
         ]);
 
         if (auth()->user()->hasRole('teacher')) {
@@ -131,31 +117,28 @@ class CoursesController extends Controller
      * @param  \App\Course  $course
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $channel, Course $course)
+    public function update(CourseFormRequest $request, $channel, Course $course)
     {
-      $this->validate($request, [
-        'title' => 'required|min:6|max:60',
-        'body'  => 'required|min:100',
-        'description' => 'required|min:50|max:160',
-        'language' => 'required',
-        'cycle' => 'required',
-        'slug' => 'required',
-        'g2m_id' => 'required|min:9',
-        'datetimetz' => 'required|date_format:"d.m.Y H:i"|after:now',
-        'channel_id' => 'required|exists:channels,id',
-        ]);
 
       $this->authorize('update',$course);
+
       $new_course = Course::findOrFail($course)->first();
       $new_course->title = $request->title;
-      $new_course->datetimetz = $this->convertDate($request->datetimetz);
+      $new_course->date = $this->convertDate($request->date);
+      $new_course->time = $this->convertTime($request->time);
       $new_course->description = $request->description;
       $new_course->body = $request->body;
       $new_course->language = $request->language;
-      $new_course->dedication = $request->dedication;
       $new_course->slug = $request->slug;
       $new_course->g2m_id = $request->g2m_id;
+      $new_course->dedication = $request->dedication;
+      $new_course->intervall = $request->intervall;
+      $new_course->meetings = $request->meetings;
+      $new_course->cost = $request->cost;
       $new_course->channel_id = $request->channel_id;
+      $new_course->teacher_id = $request->teacher_id;
+      $new_course->status = $request->status;
+      $new_course->notes = $request->notes;
       $new_course->save();
 
       return redirect($course->path());
@@ -174,8 +157,19 @@ class CoursesController extends Controller
 
     public function convertDate($date)
     {
-      $format = 'd.m.Y H:i';
-      $datetimetz = \DateTime::createFromFormat($format, $date , new \DateTimeZone('Europe/Berlin'));
-      return   $datetimetz;
+      if(!$date) return null;
+
+      $format = 'd.m.Y';
+      $date = \DateTime::createFromFormat($format, $date , new \DateTimeZone('Europe/Berlin'));
+      return $date;
+    }
+
+    public function convertTime($date)
+    {
+      if(!$date) return null;
+
+      $format = 'H:i';
+      $time = \DateTime::createFromFormat($format, $date , new \DateTimeZone('Europe/Berlin'));
+      return $time;
     }
 }

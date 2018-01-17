@@ -4,59 +4,57 @@ namespace Tests\Unit;
 
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class TeacherTest extends TestCase
 {
-  use DatabaseMigrations;
 
     /** @test */
-    public function course_teacher_id_instance_of_teacher()
-    {
-      $teacher = factory('App\Teacher')->create();
-      $course = \App\Course::find($teacher->course_id);
-      $this->AssertInstanceOf('App\Teacher', $course->owner()->first());
-    }
-
-    /** @test */
-    public function course_teacher_instance_of_user()
-    {
-      $teacher = factory('App\Teacher')->create();
-      $course = \App\Course::find($teacher->course_id);
-      $this->AssertInstanceOf('App\User', $course->teacher());
-    }
-
-    /** @test */
-    public function teacher_has_courses()
+    public function a_teacher_has_courses()
     {
       $course = create('App\Course');
-      $teacher = create('App\Teacher', ['course_id'=>$course->id]);
-      $this->assertTrue($teacher->courses->contains($course));
+      $teacher = \App\Teacher::find($course->teacher_id)->first();
+      $this->assertInstanceOf('App\Teacher',$course->teacher()->first());
+      $this->assertEquals($teacher->courses->first()->title, $course->title);
     }
 
     /** @test */
-    public function teacher_has_a_user()
+    public function a_teacher_has_a_profile()
     {
-      $user = create('App\User');
-      $teacher = create('App\Teacher', ['user_id'=>$user->id]);
-      $this->assertEquals($teacher->user->first()->last_name, $user->last_name);
+      $teacher = create('App\Teacher');
+      $this->assertInstanceOf('App\Profile',$teacher->profile);
+      $teacher->profile->city = 'Nuremberg';
+      $teacher->profile->save();
+      $this->assertEquals('Nuremberg',$teacher->profile->city);
     }
 
     /** @test */
-    public function a_course_has_an_owner()
+    public function a_teacher_can_have_many_courses()
     {
-      $course = create('App\Course');
-      $teacher = create('App\Teacher', ['course_id'=>$course->id]);
-      $this->assertEquals($course->owner->first()->last_name, $teacher->last_name);
+      $teacher = create('App\Teacher');
+      $courses = factory('App\Course', 3)->create(['teacher_id'=>$teacher->id]);
+      $this->assertEquals($teacher->courses->count(), 3);
     }
 
     /** @test */
-    public function a_course_has_a_teacher()
+    public function a_teacher_has_participants()
     {
-      $course = create('App\Course');
-      $teacher = create('App\Teacher', ['course_id'=>$course->id]);
-      $this->assertInstanceOf('App\User',$course->teacher());
-      $this->assertEquals($course->teacher()->last_name, $teacher->user->first()->last_name);
+      $teacher = create('App\Teacher');
+      $course = create('App\Course', ['teacher_id'=>$teacher->id]);
+      $participants = factory('App\Participant', 3)->create(['course_id'=>$course->id]);
+      $this->assertEquals(3, $teacher->participants->count());
+    }
+
+    /** @test */
+    public function a_teacher_has_participants_from_different_courses()
+    {
+      $teacher = create('App\Teacher');
+      $course_1 = create('App\Course', ['teacher_id'=>$teacher->id]);
+      $participant_1 = create('App\Participant',['course_id'=>$course_1->id]);
+      $course_2 = create('App\Course', ['teacher_id'=>$teacher->id]);
+      $participant_2 = create('App\Participant',['course_id'=>$course_2->id]);
+      $course_3 = create('App\Course', ['teacher_id'=>$teacher->id]);
+      $participant_3 = create('App\Participant',['course_id'=>$course_3->id]);
+      $this->assertEquals(3, $teacher->participants->count());
     }
 }

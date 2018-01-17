@@ -7,6 +7,12 @@ use Illuminate\Http\Request;
 
 class TeacherController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('can:manageUsers')->only(['create','store']);
+
+    }
     /**
      * Display a listing of the resource.
      *
@@ -46,7 +52,7 @@ class TeacherController extends Controller
      */
     public function show(Teacher $teacher)
     {
-        //
+        return view('auth.editUserProfile', ['user' => Teacher::findOrFail($teacher)]);
     }
 
     /**

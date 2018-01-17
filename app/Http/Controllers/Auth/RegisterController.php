@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
-
+use App\Profile;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -52,7 +52,7 @@ class RegisterController extends Controller
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
             'gender' => 'required|in:male,female',
-            'jewish' => 'required|boolean',
+    #        'jewish' => 'required|boolean',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
         ]);
@@ -70,10 +70,11 @@ class RegisterController extends Controller
             'first_name' => $data['first_name'],
             'last_name' => $data['last_name'],
             'gender' => $data['gender'],
-            'jewish' => $data['jewish'],
+// TODO:             'jewish' => $data['jewish'],
             'email' => $data['email'],
+            'email_verification_token' => str_random(60),
+            'profile_id' => Profile::create(['type'=>'user'])->id,
             'password' => bcrypt($data['password']),
-            'email_verification_token' => str_random(60)
         ]);
     }
 }
