@@ -53,19 +53,20 @@ Route::post('/courses', 'CoursesController@store')->middleware('can:create,App\C
 
 Auth::routes();
 
+Route::get('/teacher/{teacher}', 'TeachersController@show')->name('teacher.show');
 
 Route::prefix('shomer')->group(function () {
+  #Route::middleware(['middleware' => 'auth'])->group(function() {
   Route::middleware(['middleware' => 'can:manageUsers'])->group(function() {
     Route::get('users', 'ManageUsersController@index')->name('manageUsers');
-    Route::get('/{userid}/{role}', 'ManageUsersController@assignRole');
-    Route::get('teacher', 'TeachersController@index')->name('createTeacher');
-    Route::get('teacher/create', 'TeachersController@create')->name('createTeacher');
-    Route::post('teacher/create', 'TeachersController@store');
-    Route::get('teacher/{teacher}', 'TeachersController@show')->name('editTeacher');
+    Route::get('teacher', 'TeachersController@index');
+    Route::post('teacher', 'TeachersController@store');
+    Route::get('teacher/create', 'TeachersController@create');
+    Route::get('teacher/{teacher}', 'TeachersController@show');
     Route::post('teacher/{teacher}', 'TeachersController@update');
+    Route::get('{userid}/{role}', 'ManageUsersController@assignRole');
   });
 });
-
 Route::get('/profile', 'UsersController@index')->middleware('auth');
 Route::put('/profile', 'UsersController@update')->middleware('auth');
 Route::get('verify_email/{token}', 'EmailController@verify')->name('verify_email');

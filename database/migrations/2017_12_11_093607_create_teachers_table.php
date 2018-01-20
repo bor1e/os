@@ -19,7 +19,9 @@ class CreateTeachersTable extends Migration
             $table->string('last_name');
             $table->string('email')->unique();
             $table->enum('gender', ['male','female']);
-            $table->integer('salary')->nullable();
+            $table->integer('salary')->defautl(0);
+            $table->string('slug');
+            #topics interested in
             $table->integer('profile_id')->unsigned();
             $table->timestamps();
         });

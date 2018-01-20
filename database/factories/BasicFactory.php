@@ -24,7 +24,7 @@ $factory->define(App\Profile::class, function (Faker $faker) {
       'language' => $faker->randomElement(array('de','ru','en','he')),
       'social_profile' => $faker->url,
       'jewish' => $faker->boolean(80),
-      'birthday' => $faker->date('d.m.Y'),
+      'birthday' =>date('Y-m-d H:i:s', strtotime('27.08.1990')),# $faker->date('d.m.Y'),
       'quotes' => $faker->sentences(4,true),
       'hobbies' => $faker->sentences(2,true),
       'message' => $faker->sentences(3,true),
@@ -40,6 +40,7 @@ $factory->define(App\Teacher::class, function (Faker $faker) {
       'email' => $faker->email,
       'gender' => $faker->randomElement(array('male', 'female')),
       'salary' => $faker->numberBetween(0,500),
+      'slug' => $faker->slug,
       'profile_id' => function () {
           return factory('App\Profile')->create(['type'=>'teacher'])->id;
       },
