@@ -37,12 +37,12 @@ class CreateCourseTest extends TestCase
       $this->withoutExceptionHandling()->signIn($manager);
       $course = create('App\Course', [
         'status'=>'pending',
-        'date' => '18.01.2019',
+        'date' => '18.1.2019',
         'time' => '19:20',
       ]);
       $this->get($course->path())->assertSee($course->title);
       $course->title = 'New Title '. \Carbon\Carbon::today()->toDateTimeString();
-      $this->post($course->path() . '/edit', $course->toArray())
+      $this->put($course->path() . '/edit', $course->toArray())
         ->assertRedirect($course->path());
         $this->get($course->path())
         //->assertDontSee($course->title)

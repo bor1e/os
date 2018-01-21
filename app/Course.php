@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Course extends Model
 {
     protected $guarded = [];
+    protected $dates = ['date'];
+    protected $dateFormat = 'd.m.Y';
 
     /*
      * Get the route key name for Laravel.

@@ -25,7 +25,7 @@ class CreateCoursesTable extends Migration
           $table->string('slug')->nullable();
           $table->string('g2m_id')->nullable();
           $table->text('dedication')->nullable();
-          $table->integer('intervall')->default(0);
+          $table->integer('intervall')->nullable()->default(0);
           $table->integer('meetings')->default(0);
           $table->enum('level', ['advanced','expert','anyone'])->default('anyone');
           $table->integer('cost')->default(0);
@@ -34,6 +34,7 @@ class CreateCoursesTable extends Migration
           $table->timestamps();
           $table->enum('status', ['published','pending','canceled']);
           $table->text('notes')->nullable();
+          #TODO: created by
         });
     }
 

@@ -56,10 +56,11 @@ class CoursesController extends Controller
      */
     public function store(CourseFormRequest $request)
     {
+    
         $course = Course::create([
           'title' => $request->title,
           'date' => $this->convertDate($request->date),
-          'time' => $this->convertTime($request->time),
+          'time' => date('H:i',strtotime($request->time)),
           'description' => $request->description,
           'body' => $request->body,
           'language' => $request->language,
@@ -74,13 +75,12 @@ class CoursesController extends Controller
           'status' => $request->status,
           'notes' => $request->notes,
         ]);
-
-        if (auth()->user()->hasRole('teacher')) {
-          Teacher::create([
-            'user_id' => auth()->id(),
-            'course_id' => $course->id,
-          ]);
-        }
+        #if (auth()->user()->hasRole('teacher')) {
+        #  Teacher::create([
+    #        'user_id' => auth()->id(),
+    #        'course_id' => $course->id,
+    #      ]);
+    #    }
 
 
         return redirect($course->path());
@@ -121,11 +121,10 @@ class CoursesController extends Controller
     {
 
       $this->authorize('update',$course);
-
       $new_course = Course::findOrFail($course)->first();
       $new_course->title = $request->title;
       $new_course->date = $this->convertDate($request->date);
-      $new_course->time = $this->convertTime($request->time);
+      $new_course->time = date('H:i',strtotime($request->time));
       $new_course->description = $request->description;
       $new_course->body = $request->body;
       $new_course->language = $request->language;
@@ -158,18 +157,8 @@ class CoursesController extends Controller
     public function convertDate($date)
     {
       if(!$date) return null;
-
       $format = 'd.m.Y';
       $date = \DateTime::createFromFormat($format, $date , new \DateTimeZone('Europe/Berlin'));
       return $date;
-    }
-
-    public function convertTime($date)
-    {
-      if(!$date) return null;
-
-      $format = 'H:i';
-      $time = \DateTime::createFromFormat($format, $date , new \DateTimeZone('Europe/Berlin'));
-      return $time;
     }
 }

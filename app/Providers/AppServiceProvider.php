@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Channel;
+use App\Teacher;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -18,6 +19,8 @@ class AppServiceProvider extends ServiceProvider
       \View::composer('*', function ($view)
       {
         $view->with('channels', Channel::all());
+        $view->with('teachers', Teacher::all());
+
       });
     }
 

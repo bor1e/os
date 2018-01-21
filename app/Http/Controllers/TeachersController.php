@@ -11,7 +11,7 @@ class TeachersController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('can:manageUsers')->only(['create','store']);
+        $this->middleware('can:manageUsers')->only(['create','store','edit','update']);
 
     }
     /**
@@ -21,7 +21,7 @@ class TeachersController extends Controller
      */
     public function index()
     {
-        //
+        return view('teacher.index')->with('teachers',Teacher::get());
     }
 
     /**
@@ -43,7 +43,7 @@ class TeachersController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'title' => 'required|string',
+            'title' => 'nullable|string',
             'first_name' => 'required|string|min:3',
             'last_name' => 'required|string|min:3',
             'gender' => 'required|in:male,female',
@@ -52,14 +52,33 @@ class TeachersController extends Controller
             'birthday' => 'nullable|date_format:d.m.Y',
         ]);
 
+        $profile = [
+            'type' => 'teacher',
+            'title' => $request->title,
+            'phone' => $request->phone,
+            'city' => $request->city,
+            'country' => $request->country,
+            'timezone' => $request->timezone,
+            'language' => $request->language,
+            'social_profile' => $request->social_profile,
+            'birthday' => $this->convertDate($request->birthday),
+            'quotes' => $request->quotes,
+            'hobbies' => $request->hobbies,
+            'message' => $request->message,
+            'notes' => $request->notes,
+            'assignedBy' => auth()->user()->first_name,
+        ];
+
         $teacher = Teacher::create([
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
             'email' => $request->email,
             'gender' => $request->gender,
             'salary' => $request->salary,
+            // TODO: russian slug:
+            #https://stackoverflow.com/questions/7461406/cyrillic-transliteration-in-php
             'slug' => strtolower(now()->format('oz') .'-'. $request->first_name .'-'.  $request->last_name),
-            'profile_id' => Profile::create(['type'=>'teacher','assignedBy'=>auth()->user()->first_name])->id,
+            'profile_id' => Profile::create($profile)->id,
         ]);
 
         return redirect()->route('teacher.show', $teacher);
@@ -97,12 +116,12 @@ class TeachersController extends Controller
     public function update(Request $request, Teacher $teacher)
     {
         $request->validate([
-            'title' => 'required|string',
+            'title' => 'nullable|string',
             'first_name' => 'required|string|min:3',
             'last_name' => 'required|string|min:3',
             'gender' => 'required|in:male,female',
             'salary' => 'between:0,150',
-            'email' => 'unique:teachers,email',
+            'email' => 'exists:teachers,email',
             'phone' => 'nullable|regex:/^[+]?[0-9]+$/',
             'city' => 'string|nullable',
             'country' => 'string|nullable',
@@ -115,7 +134,7 @@ class TeachersController extends Controller
         $teacher->profile->timezone = $request->timezone;
         $teacher->profile->language = $request->language;
         $teacher->profile->social_profile = $request->social_profile;
-        $teacher->profile->birthday = convertDate($request->birthday, $request->timezone);
+        $teacher->profile->birthday = $this->convertDate($request->birthday, $request->timezone);
         $teacher->profile->quotes = $request->quotes;
         $teacher->profile->hobbies = $request->hobbies;
         $teacher->profile->message = $request->message;
@@ -127,6 +146,7 @@ class TeachersController extends Controller
         $teacher->salary = $request->salary;
         $teacher->email = $request->email;
         $teacher->save();
+
         return view('teacher.show', compact('teacher'));
     }
 
@@ -141,7 +161,7 @@ class TeachersController extends Controller
         //
     }
 
-    public function convertDate($date, $timezone)
+    public function convertDate($date, $timezone=null)
     {
       if(!$date) return null;
       if(!$timezone) $timezone='Europe/Berlin';

@@ -39,7 +39,7 @@ $factory->define(App\Teacher::class, function (Faker $faker) {
       'last_name' => $faker->lastName,
       'email' => $faker->email,
       'gender' => $faker->randomElement(array('male', 'female')),
-      'salary' => $faker->numberBetween(0,500),
+      'salary' => $faker->numberBetween(0,150),
       'slug' => $faker->slug,
       'profile_id' => function () {
           return factory('App\Profile')->create(['type'=>'teacher'])->id;
@@ -56,7 +56,7 @@ $factory->define(App\Channel::class, function (Faker $faker) {
 $factory->define(App\Course::class, function (Faker $faker) {
     return [
         'title' => $faker->text(60),
-        'date' => today()->addDays(5), #$faker->randomElement(array('11','12','13','14')).'.02.2018 15:45',#  $faker->dateTimeInInterval($startdate='now', $interval='+ 2 days'),
+        'date' => $faker->dateTimeInInterval($startdate='now', $interval='+ 2 days'),#today()->addDays(5), #$faker->randomElement(array('11','12','13','14')).'.02.2018 15:45',#  ,
         'time' => $faker->time(),
         'description' => $faker->text(160),
         'body' => $faker->text(500),

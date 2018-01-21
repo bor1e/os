@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-    dito    
-    {{$teacher->last_name}}
+    {{$teacher->last_name}}<br>
+    {{$teacher->profile->notes}}
 @endsection
