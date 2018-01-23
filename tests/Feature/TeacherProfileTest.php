@@ -25,6 +25,21 @@ class TeacherProfileTest extends TestCase
     }
 
     /** @test */
+    public function a_validation_error_still_displays_input_data()
+    {
+        #$this->withoutExceptionHandling();
+        create('App\Role', ['name'=>'manager']);
+        $user = $this->createUserWithPermissionTo('manageUsers');
+        $this->signIn($user);
+        $teacher = make('App\Teacher');
+        $teacher->email = null;
+        $this->get('/shomer/teacher');
+        $this->post('/shomer/teacher',array_merge($teacher->toArray(),$teacher->profile->toArray(), ['birthday'=>'27.08.1990']))
+         ->assertSessionHasErrors('email');
+         #->assertSee('27.08.1990');
+    }
+
+    /** @test */
     public function a_manager_can_edit_a_teacher()
     {
         $this->withoutExceptionHandling();
@@ -34,10 +49,12 @@ class TeacherProfileTest extends TestCase
         $teacher = create('App\Teacher');
         $note = 'New Note '.now();
         $this->get('/shomer'.$teacher->path().'/edit')
-            ->assertSee($teacher->last_name);
+            ->assertSee($teacher->last_name)
+            ->assertSee($teacher->profile->birthday->format('d.m.Y'));
         $teacher->profile->notes = $note;
-        #dd($teacher->toArray());
-        $this->put('/shomer'.$teacher->path().'/edit',array_merge($teacher->toArray(), $teacher->profile->toArray()));
+        #$birthday = ['birthday'=>'27.08.1990'];
+        #dd(array_merge($teacher->toArray(), $birthday));
+        $this->put('/shomer'.$teacher->path().'/edit',array_merge($teacher->toArray(),$teacher->profile->toArray(), ['birthday'=>'27.08.1990']));
         #$this->put('/shomer'.$teacher->path().'/edit', $teacher->toArray());
 
         $this->get($teacher->path())

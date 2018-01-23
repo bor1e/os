@@ -37,16 +37,25 @@ class CreateCourseTest extends TestCase
       $this->withoutExceptionHandling()->signIn($manager);
       $course = create('App\Course', [
         'status'=>'pending',
-        'date' => '18.1.2019',
-        'time' => '19:20',
+    #    'date' => '18.01.2019',
+    #    'time' => '19:20',
       ]);
       $this->get($course->path())->assertSee($course->title);
+      $this->get($course->path().'/edit')->assertSee($course->date->format('d.m.Y'));
       $course->title = 'New Title '. \Carbon\Carbon::today()->toDateTimeString();
-      $this->put($course->path() . '/edit', $course->toArray())
+      $this->put($course->path() . '/edit', array_merge($course->toArray(), ['date'=>'12.03.2019']))
         ->assertRedirect($course->path());
+        #dd(session('errors'));
         $this->get($course->path())
         //->assertDontSee($course->title)
         ->assertSee('New Title '. \Carbon\Carbon::today()->toDateTimeString());
+    }
+
+    /** @test */
+    public function a_date_is_displayesd()
+    {
+        $course = create('App\Course');
+        $this->get($course->path())->assertSee($course->date->format('d.m'));
     }
 
     // TODO: teacher <-> user relation, user cannot create but update class

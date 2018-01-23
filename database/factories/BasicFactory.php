@@ -24,7 +24,7 @@ $factory->define(App\Profile::class, function (Faker $faker) {
       'language' => $faker->randomElement(array('de','ru','en','he')),
       'social_profile' => $faker->url,
       'jewish' => $faker->boolean(80),
-      'birthday' =>date('d.m.Y', strtotime('27.08.1990')),# $faker->date('d.m.Y'),
+      'birthday' => $faker->date(),#date(strtotime('27.08.1990')),#'1990-08-27',####'27.08.1990',#date('d.m.Y', strtotime('27.08.1990')),#
       'quotes' => $faker->sentences(4,true),
       'hobbies' => $faker->sentences(2,true),
       'message' => $faker->sentences(3,true),
@@ -56,8 +56,8 @@ $factory->define(App\Channel::class, function (Faker $faker) {
 $factory->define(App\Course::class, function (Faker $faker) {
     return [
         'title' => $faker->text(60),
-        'date' => $faker->dateTimeInInterval($startdate='now', $interval='+ 2 days'),#today()->addDays(5), #$faker->randomElement(array('11','12','13','14')).'.02.2018 15:45',#  ,
-        'time' => $faker->time(),
+        'date' => $faker->dateTimeInInterval($startdate='now', $interval='+ 2 days'),#date('d.m.Y', strtotime($faker->randomElement(array('6','9','10','11','12','13','17')).'.02.2019')),#today()->addDays(5), #,#  ,
+        'time' =>  date('H:i',strtotime($faker->randomElement(array('6','9','10','11','12','13','17')).':'.$faker->randomElement(array('00','15','30','45',)))),
         'description' => $faker->text(160),
         'body' => $faker->text(500),
         'language' => $faker->randomElement(array('DE','RU','EN','HE')),

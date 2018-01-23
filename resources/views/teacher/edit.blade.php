@@ -158,7 +158,7 @@
       <div class="form-group row {{ $errors->has('birthday') ? 'has-error' : '' }}">
           <label class="col-lg-3 col-form-label form-control-label">Birthday</label>
           <div class="col-lg-9">
-            <input class="form-control" type="text" name="birthday" value="{{ $teacher->profile->birthday }}" placeholder="27.08.1990">
+            <input class="form-control" type="text" name="birthday" value="{{ date('d.m.Y', strtotime($teacher->profile->birthday)) }}" placeholder="27.08.1990">
             @if ($errors->has('birthday'))
                 <span class="help-block">
                     <strong>{{ $errors->first('birthday') }}</strong>

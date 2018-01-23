@@ -7,7 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class Profile extends Model
 {
     protected $guarded = [];
-    
+    protected $dates = ['birthday'];
+    #protected $dateFormat = 'd.m.Y';
+
     public function owner()
     {
       if($this->type=='user')

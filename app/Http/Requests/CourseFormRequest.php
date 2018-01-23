@@ -23,6 +23,8 @@ class CourseFormRequest extends FormRequest
      */
     public function rules()
     {
+        #dd(request()->toArray());
+
         return [
           'title' => 'required|min:6|max:60',
           'date' => 'date_format:d.m.Y|after:today|required_if:status,published',

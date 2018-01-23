@@ -9,7 +9,7 @@ class Course extends Model
 {
     protected $guarded = [];
     protected $dates = ['date'];
-    protected $dateFormat = 'd.m.Y';
+    #protected $dateFormat = 'd.m.Y H:i:s';
 
     public function getRouteKeyName()
     {

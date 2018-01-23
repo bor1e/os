@@ -51,7 +51,6 @@ class TeachersController extends Controller
             'email' => 'email|required|unique:teachers,email',
             'birthday' => 'nullable|date_format:d.m.Y',
         ]);
-
         $profile = [
             'type' => 'teacher',
             'title' => $request->title,
@@ -115,6 +114,7 @@ class TeachersController extends Controller
      */
     public function update(Request $request, Teacher $teacher)
     {
+        #dd($request->toArray());
         $request->validate([
             'title' => 'nullable|string',
             'first_name' => 'required|string|min:3',
@@ -134,7 +134,7 @@ class TeachersController extends Controller
         $teacher->profile->timezone = $request->timezone;
         $teacher->profile->language = $request->language;
         $teacher->profile->social_profile = $request->social_profile;
-        $teacher->profile->birthday = $this->convertDate($request->birthday, $request->timezone);
+        $teacher->profile->birthday = $this->convertDate($request->birthday);
         $teacher->profile->quotes = $request->quotes;
         $teacher->profile->hobbies = $request->hobbies;
         $teacher->profile->message = $request->message;

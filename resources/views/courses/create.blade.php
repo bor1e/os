@@ -29,9 +29,9 @@
               <label class="col-lg-3 col-form-label form-control-label">Teacher</label>
               <div class="col-lg-9">
                 <select name="teacher_id" class="form-control" size="0" required>
-                  <option value="{{ old('teacher_id')  }}"{{ old('teacher_id')? 'selected' : ''}}>Choose One...</option>
+                  <option value="">Choose One...</option>
                   @foreach ($teachers as $teacher)
-                  <option value="{{$teacher->id}}" >{{ $teacher->last_name . ' ' . $teacher->first_name }}</option>
+                  <option value="{{$teacher->id}}" {{ old('teacher_id') == $teacher->id? 'selected' : ''}} >{{ $teacher->last_name . ' ' . $teacher->first_name }}</option>
                   @endforeach
                 </select>
                 @if ($errors->has('teacher_id'))
@@ -163,7 +163,7 @@
                 <label class="col-lg-3 col-form-label form-control-label">Level</label>
                 <div class="col-lg-9">
                     <select name="level" class="form-control" size="0">
-                      <option value="anyone" selected>{{ old('level')  }}</option>
+                      <option value="{{old('level')}}" selected>{{ old('level')  }}</option>
                       <option value="beginner">Beginner</option>
                       <option value="advanced">Advanced</option>
                       <option value="expert">Expert</option>
@@ -218,7 +218,7 @@
                 <label class="col-lg-3 col-form-label form-control-label">Status</label>
                 <div class="col-lg-9">
                   <select name="status" class="form-control" size="0" required>
-                    <option value="{{ old('status') }}" selected>{{ old('status') ? old('status') : 'Select one...'  }}</option>
+                    <option value="{{ old('status') }}" selected>{{ ucfirst(old('status')) ? old('status') : 'Select one...'  }}</option>
                     <option value="pending">Pending</option>
                     <option value="canceled">Canceled</option>
                     <option value="published">Published</option>

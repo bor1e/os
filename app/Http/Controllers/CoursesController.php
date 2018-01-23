@@ -56,7 +56,6 @@ class CoursesController extends Controller
      */
     public function store(CourseFormRequest $request)
     {
-    
         $course = Course::create([
           'title' => $request->title,
           'date' => $this->convertDate($request->date),
@@ -119,7 +118,6 @@ class CoursesController extends Controller
      */
     public function update(CourseFormRequest $request, $channel, Course $course)
     {
-
       $this->authorize('update',$course);
       $new_course = Course::findOrFail($course)->first();
       $new_course->title = $request->title;
