@@ -39,14 +39,13 @@ class CourseFeedbacksController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $channel, $course)
+    public function store(Request $request, $channel, Course $course)
     {
       $this->validate(request(), ['body' => 'required']);
-
       // TODO: this method should be not used on Course, but on participants,
       // so that only participants should be able to leave feedback
 
-        Course::find($course)->addFeedback([
+        $course->addFeedback([
           'body' => $request['body'],
           'course_id' => $course,
           'user_id' => auth()->id(),

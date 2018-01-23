@@ -11,6 +11,11 @@ class Course extends Model
     protected $dates = ['date'];
     protected $dateFormat = 'd.m.Y';
 
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
+
     /*
      * Get the route key name for Laravel.
      *
@@ -75,6 +80,6 @@ class Course extends Model
 
     public function path()
     {
-        return "/courses/{$this->channel->name}/{$this->id}";
+        return "/courses/{$this->channel->name}/{$this->slug}";
     }
 }

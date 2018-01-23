@@ -36,7 +36,7 @@ class UnitCourseTest extends TestCase
   /** @test */
   public function a_course_has_a_string_path()
   {
-    $this->assertEquals('/courses/'.$this->course->channel->name. '/'. $this->course->id ,$this->course->path() );
+    $this->assertEquals('/courses/'.$this->course->channel->name. '/'. $this->course->slug ,$this->course->path() );
   }
 
   /** @test */
