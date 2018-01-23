@@ -74,4 +74,27 @@ class CreateCourseTest extends TestCase
         $this->post('/courses', $course->toArray())
           ->assertSessionHasErrors('title');
     }
+
+    /** @test */
+    public function a_course_needs_to_have_all_data_when_published()
+    {
+        $user = create('App\User');
+        $user->assignRole('manager');
+        $this->withExceptionHandling()->signIn($user);
+        $overrides = [
+            'status'=>'published',
+            'date' => today(),#->addDays(1),
+            'time' => '19',
+            'body' => null,
+            'slug' => null,
+            'g2m_id' => '121321312312',
+            'intervall' => null,
+            'meetings' => null,
+            'teacher_id' => null,
+        ];
+        $course = make('App\Course', $overrides);
+        $errors = ['date','time','body','slug','g2m_id', 'intervall', 'meetings', 'teacher_id'];
+        $this->post('/courses', $course->toArray())
+          ->assertSessionHasErrors($errors);
+    }
 }

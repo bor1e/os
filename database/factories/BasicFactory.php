@@ -17,19 +17,19 @@ $factory->define(App\Profile::class, function (Faker $faker) {
     return [
       'title' => $faker->title,
       'type' => $faker->randomElement(array('teacher','user')),
-      'phone' => $faker->phoneNumber,
+      'phone' => +123123123,
       'city' => $faker->city,
       'country' => $faker->country,
       'timezone' => $faker->timezone,
       'language' => $faker->randomElement(array('de','ru','en','he')),
       'social_profile' => $faker->url,
       'jewish' => $faker->boolean(80),
-      'birthday' =>date('Y-m-d H:i:s', strtotime('27.08.1990')),# $faker->date('d.m.Y'),
+      'birthday' =>date('d.m.Y', strtotime('27.08.1990')),# $faker->date('d.m.Y'),
       'quotes' => $faker->sentences(4,true),
       'hobbies' => $faker->sentences(2,true),
       'message' => $faker->sentences(3,true),
       'notes' => $faker->sentences(5,true),
-      'assignedBy' => $faker->randomElement(array('Chana','Elyahu','Yochewed','')),
+      'assignedBy' => $faker->randomElement(array('Chana','Elyahu','Yochewed')),
     ];
 });
 

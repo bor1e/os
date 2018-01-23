@@ -32,6 +32,7 @@ class UsersController extends Controller
       if(isset($request['birhtday']))
         $user->profile->birthday =\DateTime::createFromFormat('d.m.Y', $request['birhtday']);
 
+      // TODO: teacher does need it, user doesn't need to save the profile specific, what todo??
       $user->profile->save();
 
       $user->first_name = $request['first_name'];

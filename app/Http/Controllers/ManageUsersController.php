@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use \App\User;
+use App\Events\StatusChange;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -25,9 +26,13 @@ class ManageUsersController  extends Controller
      */
     public function index()
     {
-        $newUsers = User::whereNotIn('id', \DB::table('role_user')
+        $registered = User::whereNotIn('id', \DB::table('role_user')
                   ->pluck('user_id')->all())
                   ->get();
+
+        $email_confirmed = User::withCount('roles')->get()
+                    ->where('roles_count',1)
+                    ->all();
 
         $teachers = User::join('role_user','users.id','role_user.user_id')
                   ->join('roles','role_user.role_id','roles.id')
@@ -49,21 +54,33 @@ class ManageUsersController  extends Controller
                   ->where('roles.name','like','declined')
                   ->get();
 
-        return view('manage.index', compact('newUsers','members','teachers','declined','pending'));
+        $users = [
+            'email_confirmed' => $email_confirmed,
+            'registered' => $registered,
+            'members' => $members,
+            'pending' => $pending,
+            'declined' => $declined,
+            'teachers' => $teachers,
+        ];
+        return view('manage.index', compact('users'));
     }
 
     public function assignRole($userid, $role)
     {
-        if (in_array($role, ['member','teacher','declined','pending'])) {
+        if (in_array($role, ['member','teacher','declined','pending','email_confirmed'])) {
           $user = User::findOrFail($userid);
 
           $user->assignRole($role);
-
           // TODO:
           // assignedBy should not be a column but a
           // pivot between 'users' and 'role_user'
-          $user->assignedBy = auth()->user()->first_name;
+          // UPDATE: I think it is fine!
+          $user->profile->assignedBy = auth()->user()->first_name;
           $user->save();
+
+          if ($role!='email_confirmed') {
+            event(new StatusChange($user));
+          }
 //          if($role=='pending') dd('pending');
           return back();
         }

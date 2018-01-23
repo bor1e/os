@@ -35,8 +35,11 @@ class TeacherProfileTest extends TestCase
         $note = 'New Note '.now();
         $this->get('/shomer'.$teacher->path().'/edit')
             ->assertSee($teacher->last_name);
-        $teacher->notes = $note;
-        $this->put('/shomer'.$teacher->path().'/edit', $teacher->toArray());
+        $teacher->profile->notes = $note;
+        #dd($teacher->toArray());
+        $this->put('/shomer'.$teacher->path().'/edit',array_merge($teacher->toArray(), $teacher->profile->toArray()));
+        #$this->put('/shomer'.$teacher->path().'/edit', $teacher->toArray());
+
         $this->get($teacher->path())
             ->assertSee($note);
     }

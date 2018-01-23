@@ -139,6 +139,7 @@ class TeachersController extends Controller
         $teacher->profile->hobbies = $request->hobbies;
         $teacher->profile->message = $request->message;
         $teacher->profile->notes = $request->notes;
+        #dd($request->toArray());
         $teacher->profile->save();
         $teacher->first_name = $request->first_name;
         $teacher->last_name = $request->last_name;

@@ -2,9 +2,6 @@
 <p style="text-align:right">
   בס"ד
 </p>
-![Jüdische Studien][logo]
-
-[logo]: {{asset('/images/logo.png')}} "Logo"
 # Email bestätigen
 @if ($user->gender == 'male')
   Lieber {{ $user->first_name }},
