@@ -8,8 +8,11 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class SendStatusChangeEmail
+class SendStatusChangeEmail implements ShouldQueue
 {
+    use InteractsWithQueue;
+    public $connection = 'emails';
+    #public $queue = 'emails';
     /**
      * Create the event listener.
      *
@@ -28,6 +31,12 @@ class SendStatusChangeEmail
      */
     public function handle(StatusChange $event)
     {
-        Mail::to($event->user->email)->send(new StatusChangeMail($event->user));
+         echo 'User: ' . $event->user->last_name."\n";
+         echo 'Queued Job Id:'. $this->job->getJobId()."\n";
+         echo 'Queue-Name:'. $this->job->getQueue()."\n";
+         echo 'Queue-Class:'. $this->job->resolveName()."\n";
+        #echo 'Queue-Connection:'. $this->job->getConnection()."\n";
+        #echo 'Queued Job RawBody:'. $this->job->getRawBody()."\n";
+        Mail::to($event->user->email)->send(new StatusChangeMail($event->user));#->onConnection('redis')->onQueue('emails');
     }
 }
