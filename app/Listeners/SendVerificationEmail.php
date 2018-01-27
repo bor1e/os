@@ -8,8 +8,10 @@ use App\Mail\UserHasRegisteredMail;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class SendVerificationEmail
+class SendVerificationEmail implements ShouldQueue
 {
+    use InteractsWithQueue;
+    public $connection = 'emails';
     /**
      * Create the event listener.
      *
@@ -28,6 +30,9 @@ class SendVerificationEmail
      */
     public function handle(UserHasRegistered $event)
     {
-      Mail::to($event->user->email)->send(new UserHasRegisteredMail($event->user));
+        echo 'User: ' . $event->user->last_name."\n";
+        echo 'Queued Job Id:'. $this->job->getJobId()."\n";
+        echo 'Queue-Name:'. $this->job->getQueue()."\n";
+        Mail::to($event->user->email)->send(new UserHasRegisteredMail($event->user));
     }
 }

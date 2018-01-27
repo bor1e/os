@@ -8,12 +8,15 @@ use App\Events\UserHasRegistered;
 use App\Events\StatusChange;
 use App\Mail\StatusChangeMail;
 use App\Mail\UserHasRegisteredMail;
+use App\Listener\SendStatusChangeEmail;
+
+use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class RegisterMailTest extends TestCase
+class EmailTest extends TestCase
 {
     public function setUp()
     {
@@ -42,9 +45,22 @@ class RegisterMailTest extends TestCase
     }
 
     /** @test */
+    public function an_email_is_being_queued_on_the_email_queue()
+    {
+        Queue::fake();
+        $user = make('App\User');
+        $data = $user->toArray();
+        $data['password'] = $user->password;
+        $data['password_confirmation'] = $user->password;
+        $response = $this->withoutExceptionHandling()->post('/register', $data);
+        Queue::assertPushed(\Illuminate\Events\CallQueuedListener::class);
+        #dd('test');
+    }
+
+    /** @test */
     public function an_email_is_sent_to_freshly_registered_user()
     {
-      Mail::fake();
+      #Mail::fake();
       $user = make('App\User');
       $data = $user->toArray();
       $data['password'] = $user->password;
@@ -54,9 +70,13 @@ class RegisterMailTest extends TestCase
       ]);
       $response = $this->post('/register', $data);
 
-      Mail::assertSent(UserHasRegisteredMail::class, function ($mail) use ($user) {
-             return $mail->hasTo($user->email);
-           });
+      $this->assertDatabaseHas('users', [
+       'email' => $user->email,
+      ]);
+      $this->assertFalse($user->hasRole('email_verified'));
+      #Mail::assertSent(UserHasRegisteredMail::class, function ($mail) use ($user) {
+        #     return $mail->hasTo($user->email);
+         #  });
     }
 
     /** @test */
@@ -86,14 +106,33 @@ class RegisterMailTest extends TestCase
     /** @test */
     public function an_email_is_sent_to_updated_user_status()
     {
-      Mail::fake();
+    #  Mail::fake();
       $user = $this->createUserWithPermissionTo('manageUsers');
       $this->signIn($user);
       $registered = create('App\User');
       $response = $this->withoutExceptionHandling()->get('/shomer/'. $registered->id.'/member');
-
-      Mail::assertSent(StatusChangeMail::class, function ($mail) use ($registered) {
-             return $mail->hasTo($registered->email);
-           });
+      $this->assertDatabaseHas('users', [
+       'email' => $registered->email,
+      ]);
+      $this->assertTrue($registered->hasRole('member'));
+      #Mail::assertSent(StatusChangeMail::class, function ($mail) use ($registered) {
+        #     return $mail->hasTo($registered->email);
+         #  });
     }
+
+    /** @test */
+    public function an_email_status_changed_was_queued()
+    {
+         Queue::fake();
+         Queue::assertNothingPushed();
+         $user = $this->createUserWithPermissionTo('manageUsers');
+         $this->signIn($user);
+         $registered = create('App\User');
+         $response = $this->get('/shomer/'. $registered->id.'/member');
+         $this->assertTrue($registered->hasRole('member'));
+         Queue::assertPushed(\Illuminate\Events\CallQueuedListener::class, 3);
+         #Queue::assertPushedOn('emails',SendStatusChangeEmail::class);#\Illuminate\Events\CallQueuedListener::class);
+    }
+
+
 }
