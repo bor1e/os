@@ -17,6 +17,7 @@ class EnrollmentJob implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     protected $user;
+    #public $connection = 'emails';
     /**
      * Create a new job instance.
      *
@@ -34,10 +35,14 @@ class EnrollmentJob implements ShouldQueue
      */
     public function handle()
     {
+        echo 'User: ' . $event->user->last_name."\n";
+        echo 'Queued Job Id:'. $this->job->getJobId()."\n";
+        echo 'Queue-Name:'. $this->job->getQueue()."\n";
+        
         if(!$this->user->participates()->count())
             return;
 
         Mail::to($this->user->email)
-            ->send(new EnrollmentMail($this->user->participates()));
+            ->send(new EnrollmentMail($this->user));
     }
 }

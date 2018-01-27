@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Course;
 use App\Participant;
+use App\Jobs\EnrollmentJob;
 use Illuminate\Http\Request;
 
 class ParticipantsController extends Controller
@@ -42,11 +43,28 @@ class ParticipantsController extends Controller
      */
     public function store($channel, Course $course)
     {
-      $course->addParticipant([
-        'course_id' => $course->id,
-        'user_id' => auth()->id(),
-      ]);
-      return back();
+        // TODO: do I need to pass course_id????
+        $course->addParticipant([
+        #    'course_id' => $course->id,
+            'user_id' => auth()->id(),
+        ]);
+        $us = '';
+        if (!($us = Participant::where('user_id',auth()->id()))->count()){
+            EnrollmentJob::dispatch(auth()->user())
+                ->delay(now()->addMinutes(15))
+                ->onQueue('emails');
+                return back();
+        }
+
+        if ($us->where('created_at','<',\Carbon\Carbon::now()->subMinutes(15)->toDateTimeString())->count()) {
+            EnrollmentJob::dispatch(auth()->user())
+            ->delay(now()->addMinutes(15))
+            ->onQueue('emails');
+        }
+
+        return back();
+
+
     }
 
     /**

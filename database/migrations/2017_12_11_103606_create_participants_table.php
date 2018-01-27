@@ -20,6 +20,7 @@ class CreateParticipantsTable extends Migration
             #$table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             #$table->foreign('course_id')->references('id')->on('courses')->onDelete('cascade');
             $table->unique(['course_id','user_id']);
+            $table->timestamps();
         });
     }
 

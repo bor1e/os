@@ -134,5 +134,20 @@ class EmailTest extends TestCase
          #Queue::assertPushedOn('emails',SendStatusChangeEmail::class);#\Illuminate\Events\CallQueuedListener::class);
     }
 
+    /** @test */
+    public function an_email_enrollment_was_queued()
+    {
+         Queue::fake();
+         Queue::assertNothingPushed();
+         $user = $this->createUserWithPermissionTo('participateInCourse');
+         $this->signIn($user);
+         $course = create('App\Course');
+         # TODO: method $user->enroll($course);
+         $this->post($course->path() .'/enroll');
+         $this->assertEquals(1, $course->participants()->get()->count());
+        
+         Queue::assertPushed(\Illuminate\Events\CallQueuedListener::class, 1);
+         #Queue::assertPushedOn('emails',SendStatusChangeEmail::class);#\Illuminate\Events\CallQueuedListener::class);
+    }
 
 }

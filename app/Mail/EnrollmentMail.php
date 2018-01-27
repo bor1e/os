@@ -14,6 +14,7 @@ class EnrollmentMail extends Mailable
     use Queueable, SerializesModels;
 
     public $user;
+    #public $connection = 'emails';
 
      /**
       * Create a new message instance.
@@ -31,7 +32,7 @@ class EnrollmentMail extends Mailable
      */
     public function build()
     {
-        return $this->subject("OnlineShiurim - {$this->user->first_name} deine Kurse!")
+        return $this->subject("Deine OnlineShiurim!")
               ->markdown('emails.enrollment');
     }
 }
