@@ -32,7 +32,7 @@ class EnrollmentMail extends Mailable
      */
     public function build()
     {
-        return $this->subject("Deine OnlineShiurim!")
+        return $this->subject("Deine OnlineShiurim ...")
               ->markdown('emails.enrollment');
     }
 }

@@ -3,18 +3,11 @@
   בס"ד
 </p>
 <!-- TODO: anpassen an änderung des status-->
-# Sie haben sich zu folgenden Kursen angemeldet!
-@if ($user->gender == 'male')
-  Lieber {{ $user->first_name }},
-@else
-  Liebe {{ $user->first_name }},
-@endif
+Dein Kurs heute:
+# {{$course->title}}
+## Heute um {{$course->time}}
+{{$course->body}}
 <br>
-<ul>
-    @foreach ($user->participates as $key => $course)
-    <li>{{$key+1}} - {{$course->title}}</li>
-    @endforeach
-</ul>
 {{--
 @component('mail::table')
 

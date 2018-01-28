@@ -16,7 +16,7 @@ class EnrollmentJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    protected $user;
+    public $user;
     #public $connection = 'emails';
     /**
      * Create a new job instance.
@@ -25,6 +25,7 @@ class EnrollmentJob implements ShouldQueue
      */
     public function __construct(User $user)
     {
+        #echo 'HERE WE construct: '. now() . " \t\n";
         $this->user = $user;
     }
 
@@ -35,10 +36,12 @@ class EnrollmentJob implements ShouldQueue
      */
     public function handle()
     {
-        echo 'User: ' . $event->user->last_name."\n";
-        echo 'Queued Job Id:'. $this->job->getJobId()."\n";
-        echo 'Queue-Name:'. $this->job->getQueue()."\n";
-        
+        #echo 'Queue-Class:'. $this->job->resolveName()."\t\n";
+        #dd($this->job->getConnectionName());
+        echo 'Queue-Class:'. $this->job->getConnectionName()."\t\n";
+        echo 'User:'. $this->user->first_name."\t\n";
+        echo 'Job Id:'. var_dump($this->job->payload()) ."\t\n";
+        echo 'Email being sent '. now()."\t\n";
         if(!$this->user->participates()->count())
             return;
 
