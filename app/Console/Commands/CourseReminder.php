@@ -43,7 +43,7 @@ class CourseReminder extends Command
     {
         if(! count($this->arguments()['course'])) {
             $courses = Course::where('date',today()->addDays(1))->get();
-    #        dd($courses->pluck('title')->all());
+            #dd($courses->pluck('title')->all());
             foreach ($courses as $course) {
                 CourseReminderJob::dispatch($course);
             }

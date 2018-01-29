@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use App\Course;
 use App\Mail\ReminderMail;
+use Illuminate\Support\Facades\Mail;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
@@ -33,18 +34,21 @@ class CourseReminderJob implements ShouldQueue
      */
     public function handle()
     {
-        #echo 'Queue-Class:'. $this->job->getConnectionName()."\t\n";
-        echo 'Course '. $this->course->title."\t\n";
-        echo 'Email being sent '. now()."\t\n";
+        echo 'Queue-Class:'. $this->job->getConnectionName()."\t\n";
 
-        if($this->course->users->count() > 0) {
-            $users = $this->course->users->get();
-            dd($users);
+        if($this->course->users()->count() > 0) {
+            $users = $this->course->users()->get();
+
             foreach($users as $i => $user) {
                 echo $i . " User: " . $user->email. "\n";
+
                 Mail::to($user->email)
                     ->send(new ReminderMail($this->course));
+                echo 'Email sent '. now()."\t\n";
             }
+        #    dd('test');
+        } else {
+            echo 'Course '. $this->course->title."\t\n";
         }
     }
 }
