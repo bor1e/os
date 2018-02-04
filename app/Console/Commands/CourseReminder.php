@@ -42,17 +42,20 @@ class CourseReminder extends Command
     public function handle()
     {
         if(! count($this->arguments()['course'])) {
-            $courses = Course::where('date',today()->addDays(1))->get();
+            $courses = Course::where('date',today())->get();
             #dd($courses->pluck('title')->all());
             foreach ($courses as $course) {
                 CourseReminderJob::dispatch($course);
             }
         } else {
-            #dd($this->arguments()['course'][0]);
-            $courses = Course::where($this->arguments()['course'][0]);
-            foreach($this->arguments()['course'] as $slug) {
-                CourseReminderJob::dispatch(Course::where('slug',$slug)->first());
-            }
+            #dd($this->arguments()['course']);
+            $course = Course::where('slug',$this->arguments()['course'])->first();
+            #dd($course->slug);
+            echo "dispatching job....";
+            #foreach($this->arguments()['course'] as $slug) {
+                CourseReminderJob::dispatch($course);
+            #}
+            echo "job dispatached.";
         }
     }
 }

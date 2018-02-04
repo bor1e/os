@@ -24,7 +24,9 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')
+        $schedule->command('reminder:course')->dailyAt('07:07')->skip(function () {
+            return (today()->dayOfWeek == 6);
+        });
         //          ->hourly();
     }
 

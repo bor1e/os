@@ -44,7 +44,7 @@ class EnrollmentJob implements ShouldQueue
         echo 'Email being sent '. now()."\t\n";
         if(!$this->user->participates()->count())
             return;
-
+        // TODO: only active courses!
         Mail::to($this->user->email)
             ->send(new EnrollmentMail($this->user));
     }

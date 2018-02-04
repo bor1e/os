@@ -145,9 +145,26 @@ class EmailTest extends TestCase
          # TODO: method $user->enroll($course);
          $this->post($course->path() .'/enroll');
          $this->assertEquals(1, $course->participants()->get()->count());
-        
+
          Queue::assertPushed(\Illuminate\Events\CallQueuedListener::class, 1);
          #Queue::assertPushedOn('emails',SendStatusChangeEmail::class);#\Illuminate\Events\CallQueuedListener::class);
     }
 
+    /** @test */
+    public function reminder_command_will_send_email()
+    {
+        Queue::fake();
+        Queue::assertNothingPushed();
+        $course = create('App\Course');
+        $participant = create('App\Participant', ['course_id'=>$course->id]);
+        $command = \Mockery::mock('App\Console\Commands\CourseReminder');
+        #$this->app['Illuminate\Contracts\Console\Kernel']->registerCommand($command);
+        $this->artisan('reminder:course', ['course'=>$course->slug]);
+        #dd($command);
+        Queue::assertPushed(\Illuminate\Events\CallQueuedListener::class, 2);
+
+#        Mail::assertSent(ReminderMail::class, function ($mail) use ($user) {
+#            return $mail->hasTo($user->email);
+#        });
+    }
 }

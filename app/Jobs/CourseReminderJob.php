@@ -41,14 +41,13 @@ class CourseReminderJob implements ShouldQueue
 
             foreach($users as $i => $user) {
                 echo $i . " User: " . $user->email. "\n";
-
                 Mail::to($user->email)
                     ->send(new ReminderMail($this->course));
                 echo 'Email sent '. now()."\t\n";
             }
         #    dd('test');
         } else {
-            echo 'Course '. $this->course->title."\t\n";
+            echo 'Course '. $this->course->title." HAS NO USERS\t\n";
         }
     }
 }
