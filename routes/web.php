@@ -16,27 +16,7 @@
 #
 #    return new App\Mail\UserHasRegisteredMail($user);
 #});
-Route::get('/que',function (){                                                     // route from <server_ip>/que
-   $queue = Queue::push('LogMessage', array('message' => 'Time: '.time()));               // this will push job in queue
-                               // OR
-   //$queue = Queue::later($delay,'LogMessage', array('message' => 'Time: '.time()));     // this will push job in queue after $delay
-   //sleep(5);    //you can add delay here too
 
-   print_r(" ".$queue." ".time());            //prints queue_id and time stamp
-});
-
-
-class LogMessage{                                                                //bad practice to deploy code here :p
-
-
-      public function fire($job,$data){                                         //takes data and performs action.
-
-           File::append(app_path().'/queue.txt',$data['message'].PHP_EOL);
-           $job->delete();
-
-
-       }
-}
 Route::get('/', function () {
     return view('alt');
 })->name('home');
@@ -65,7 +45,7 @@ Route::get('/courses/create', 'CoursesController@create')->middleware('can:creat
 Route::get('/courses/{channel}', 'CoursesController@index');
 Route::get('/courses/{channel}/{course}', 'CoursesController@show');
 Route::get('/courses/{channel}/{course}/edit', 'CoursesController@edit');
-Route::put('/courses/{channel}/{course}/edit', 'CoursesController@update');
+Route::put('/courses/{channel}/{course}/e   dit', 'CoursesController@update');
 Route::post('/courses/{channel}/{course}/enroll', 'ParticipantsController@store')->middleware('can:participateInCourse');
 Route::post('/courses/{channel}/{course}/revokeEnrollment', 'ParticipantsController@destroy')->middleware('can:participateInCourse');
 Route::post('/courses/{channel}/{course}/feedback', 'CourseFeedbacksController@store');
@@ -91,3 +71,6 @@ Route::prefix('shomer')->group(function () {
 Route::get('/profile', 'UsersController@index')->middleware('auth');
 Route::put('/profile', 'UsersController@update')->middleware('auth');
 Route::get('verify_email/{token}', 'EmailController@verify')->name('verify_email');
+
+Route::get('/donate', 'DonationsController@index');
+Route::post('/donate', 'DonationsController@store')->name('donation');

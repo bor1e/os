@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Channel;
 use App\Teacher;
 use Illuminate\Support\ServiceProvider;
+use Laravel\Cashier\Cashier;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -15,6 +16,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Cashier::useCurrency('eur', '€');
       #\View::share('channels',Channel::all());
       \View::composer('*', function ($view)
       {
