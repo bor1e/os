@@ -58,6 +58,7 @@ class CourseTest extends TestCase
     /** @test */
     public function a_user_can_filter_courses_by_teachers_lastname()
     {
+        $this->withoutExceptionHandling();
       $this->get('/courses?by='.$this->teacher->last_name)
         ->assertSee($this->course->title)
         ->assertDontSee($this->singleCourse->title);

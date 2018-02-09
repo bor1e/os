@@ -16,27 +16,6 @@
 #
 #    return new App\Mail\UserHasRegisteredMail($user);
 #});
-Route::get('/que',function (){                                                     // route from <server_ip>/que
-   $queue = Queue::push('LogMessage', array('message' => 'Time: '.time()));               // this will push job in queue
-                               // OR
-   //$queue = Queue::later($delay,'LogMessage', array('message' => 'Time: '.time()));     // this will push job in queue after $delay
-   //sleep(5);    //you can add delay here too
-
-   print_r(" ".$queue." ".time());            //prints queue_id and time stamp
-});
-
-
-class LogMessage{                                                                //bad practice to deploy code here :p
-
-
-      public function fire($job,$data){                                         //takes data and performs action.
-
-           File::append(app_path().'/queue.txt',$data['message'].PHP_EOL);
-           $job->delete();
-
-
-       }
-}
 Route::get('/', function () {
     return view('alt');
 })->name('home');

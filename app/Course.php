@@ -78,6 +78,11 @@ class Course extends Model
         $this->feedbacks()->create($feedback);
     }
 
+    public function scopeFilter($query, $filters)
+    {
+        return $filters->apply($query);
+    }
+
     public function path()
     {
         return "/courses/{$this->channel->name}/{$this->slug}";

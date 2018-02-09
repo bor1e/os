@@ -80,7 +80,7 @@ class UnitUserTest extends TestCase
   /** @test */
   public function a_user_has_a_route_for_verification()
   {
-    $s1 = config('app.url').'/verify_email/'.$this->user->email_verification_token;
+    $s1 = config('app.url').'verify_email/'.$this->user->email_verification_token;
     $s2 = $this->user->getEmailVerificationUrl();
     $this->assertEquals($s1, $s2);
   }

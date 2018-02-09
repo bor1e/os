@@ -161,7 +161,7 @@ class EmailTest extends TestCase
         #$this->app['Illuminate\Contracts\Console\Kernel']->registerCommand($command);
         $this->artisan('reminder:course', ['course'=>$course->slug]);
         #dd($command);
-        Queue::assertPushed(\Illuminate\Events\CallQueuedListener::class, 2);
+        Queue::assertPushed(\Illuminate\Events\CallQueuedListener::class, 1);
 
 #        Mail::assertSent(ReminderMail::class, function ($mail) use ($user) {
 #            return $mail->hasTo($user->email);

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Course;
 use App\Teacher;
 use App\Channel;
+use App\Filters\CourseFilters;
 use App\Http\Requests\CourseFormRequest;
 
 
@@ -21,18 +22,20 @@ class CoursesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Channel $channel)
+    public function index(Channel $channel, CourseFilters $filters)
     {
       if($channel->exists) {
         $courses = $channel->courses()->latest()->get();
       }
       else {
-        $courses = Course::where('date','>=',now())->orderBy('date')->orderBy('time')->get();
+        $courses = Course::where('date','>=',today())->where('time', '>=', now())->orderBy('date')->orderBy('time')->get();
       }
       if($teacher_last_name=request('by')) {
         #dd(request());
+
         $teacher = Teacher::where('last_name', $teacher_last_name)->firstOrFail();
-        $courses = $teacher->courses()->get();
+        #$courses = $teacher->courses()->get();
+        $courses = $this->getCourses($channel, $filters);
       }
 
       return view('courses.index', compact('courses'));
@@ -150,6 +153,22 @@ class CoursesController extends Controller
     public function destroy(Course $course)
     {
         //
+    }
+
+    /**
+     * Fetch all relevant threads.
+     *
+     * @param Channel       $channel
+     * @param CourseFilters $filters
+     * @return mixed
+     */
+    protected function getCourses(Channel $channel, CourseFilters $filters)
+    {
+        $courses = Course::latest()->filter($filters);
+        if ($channel->exists) {
+            $courses->where('channel_id', $channel->id);
+        }
+        return $courses->get();
     }
 
     public function convertDate($date)
