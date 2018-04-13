@@ -20,6 +20,10 @@ Route::get('/', function () {
     return view('alt');
 })->name('home');
 
+Route::get('/tmp', function () {
+    return view('layouts.tmp');
+})->name('tmp');
+
 Route::get('/alt', function () {
     return view('welcome');
 });

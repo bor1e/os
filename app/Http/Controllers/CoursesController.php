@@ -28,7 +28,12 @@ class CoursesController extends Controller
         $courses = $channel->courses()->latest()->get();
       }
       else {
-        $courses = Course::where('date','>=',today())->where('time', '>=', now())->orderBy('date')->orderBy('time')->get();
+        #FIXME check if course already finished
+        $courses = Course::where('date','>=',today())
+                    #->where('time', '>=', now())
+                    ->orderBy('date')
+                    ->orderBy('time')
+                    ->get();
       }
       if($teacher_last_name=request('by')) {
         #dd(request());
