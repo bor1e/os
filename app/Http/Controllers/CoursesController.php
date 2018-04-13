@@ -14,7 +14,7 @@ class CoursesController extends Controller
 
   public function __construct()
   {
-    $this->middleware('auth')->except(['index','show']);
+    $this->middleware('auth')->except(['index','show','home', 'archives']);
     $this->middleware('can:create,App\Course')->only(['create','store']);
   }
     /**
@@ -44,6 +44,27 @@ class CoursesController extends Controller
       }
 
       return view('courses.index', compact('courses'));
+    }
+
+    public function home()
+    {
+        #FIXME check if course already finished
+        $courses = Course::where('date','>=',today())
+                    #->where('time', '>=', now())
+                    ->orderBy('date')
+                    ->orderBy('time')
+                    ->get();
+
+        $archives = Course::inRandomOrder()->where('date','<',today())->get();
+
+        return view('home.index', compact('courses', 'archives'));
+    }
+
+    public function archives()
+    {
+        //TODO order the archives
+        $archives = Course::inRandomOrder()->where('date','<',today())->get();
+        return view('home.archives', compact('archives'));
     }
 
     /**

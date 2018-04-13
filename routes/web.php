@@ -42,6 +42,8 @@ Route::get('/imprint', function () {
 
 Route::post('contact', 'ContactForm@send')->name('contact');
 
+Route::get('/home', 'CoursesController@home');
+Route::get('/archives', 'CoursesController@archives');
 Route::get('/courses', 'CoursesController@index');
 Route::get('/courses/create', 'CoursesController@create')->middleware('can:create,App\Course');
 //Route::post('/courses/{course}/update', 'CoursesController@edit');
