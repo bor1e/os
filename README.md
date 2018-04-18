@@ -1,6 +1,7 @@
 # todo:
-- course/teacher testing
-
-- section for mail
-- pic upload
-- datetime update ..
+- kursteilnehmer kontaktieren
+- email benachrichtigungen abbestellen
+- activity feed
+- foto/pdf/audio/youtube link
+- Blog
+- Donate
