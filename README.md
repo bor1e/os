@@ -1,5 +1,5 @@
 # todo:
-- kursteilnehmer kontaktieren
+- ~~kursteilnehmer kontaktieren~~
 - email benachrichtigungen abbestellen
 - activity feed
 - foto/pdf/audio/youtube link
