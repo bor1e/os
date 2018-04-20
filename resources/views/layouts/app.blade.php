@@ -68,18 +68,22 @@
 
           @guest
 
-          <form class="form-inline my-2 my-lg-0">
+          <div class="form-inline my-2 my-lg-0">
             <li class="nav-item">
-              <button class="btn btn-outline-info btn-sm align-middle mr-2" type="button">
-                <a class="nav-link" href="{{ route('login') }}"> <i class="fa fa-users"></i> Login</a>
-              </button>
+              <a class="nav-link" href="{{ route('login') }}">
+                  <button class="btn btn-outline-info btn-sm align-middle mr" type="button">
+                      <i class="fa fa-users"></i> Login
+                  </button>
+              </a>
             </li>
             <li class="nav-item">
-              <button class="btn btn-outline-success btn-sm align-middle" type="button">
-                <a class="nav-link" href="{{ route('register') }}"> <i class="fa fa-sign-in"></i> Register</a>
-              </button>
+                <a class="nav-link" href="{{ route('register') }}">
+                    <button class="btn btn-outline-success btn-sm align-middle" type="button">
+                        <i class="fa fa-sign-in"></i> Register
+                    </button>
+                </a>
             </li>
-          </form>
+        </div>
 
           @else
 
