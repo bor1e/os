@@ -10,6 +10,7 @@
     @can('update', $course)
     <div class="col-4 text-right">
         <a href="{{ $course->path() }}/edit" class="btn btn-success">Edit</a>
+        @include('courses.helpers.course_message')
     </div>
     @endcan
   </div>

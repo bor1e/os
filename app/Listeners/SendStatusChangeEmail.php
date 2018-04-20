@@ -31,10 +31,10 @@ class SendStatusChangeEmail implements ShouldQueue
      */
     public function handle(StatusChange $event)
     {
-         echo 'User: ' . $event->user->last_name."\n";
-         echo 'Queued Job Id:'. $this->job->getJobId()."\n";
-         echo 'Queue-Name:'. $this->job->getQueue()."\n";
-         echo 'Queue-Class:'. $this->job->resolveName()."\n";
+        echo 'User: ' . $event->user->last_name."\n";
+        echo 'Queued Job Id:'. $this->job->getJobId()."\n";
+        echo 'Queue-Name:'. $this->job->getQueue()."\n";
+        echo 'Queue-Class:'. $this->job->resolveName()."\n";
         #echo 'Queue-Connection:'. $this->job->getConnection()."\n";
         #echo 'Queued Job RawBody:'. $this->job->getRawBody()."\n";
         Mail::to($event->user->email)->send(new StatusChangeMail($event->user));#->onConnection('redis')->onQueue('emails');

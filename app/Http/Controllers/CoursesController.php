@@ -7,7 +7,8 @@ use App\Teacher;
 use App\Channel;
 use App\Filters\CourseFilters;
 use App\Http\Requests\CourseFormRequest;
-
+use App\Events\CourseMessage;
+use Illuminate\Http\Request;
 
 class CoursesController extends Controller
 {
@@ -15,7 +16,7 @@ class CoursesController extends Controller
   public function __construct()
   {
     $this->middleware('auth')->except(['index','show','home', 'archives']);
-    $this->middleware('can:create,App\Course')->only(['create','store']);
+    $this->middleware('can:create,App\Course')->only(['contact','create','store']);
   }
     /**
      * Display a listing of the resource.
@@ -65,6 +66,13 @@ class CoursesController extends Controller
         //TODO order the archives
         $archives = Course::inRandomOrder()->where('date','<',today())->get();
         return view('home.archives', compact('archives'));
+    }
+
+    public function contact($channel, Course $course, Request $request)
+    {
+        event(new CourseMessage($course, $request['message-text']));
+        return redirect($course->path());
+
     }
 
     /**

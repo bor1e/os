@@ -17,7 +17,10 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\SendVerificationEmail',
          ],
          'App\Events\StatusChange' => [
-            'App\Listeners\SendStatusChangeEmail', 
+            'App\Listeners\SendStatusChangeEmail',
+         ],
+         'App\Events\CourseMessage' => [
+            'App\Listeners\SendCourseMessageEmail', 
          ],
 
     ];
