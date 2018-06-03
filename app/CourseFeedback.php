@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class CourseFeedback extends Model
 {
+    use RecordsActivity;
+
   protected $guarded = [];
 
     public function user()
@@ -16,5 +18,5 @@ class CourseFeedback extends Model
     public function course()
     {
       return $this->belongsTo('App\Course')->first();
-    }  
+    }
 }

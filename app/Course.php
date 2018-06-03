@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Course extends Model
 {
+    use RecordsActivity;
+
     protected $guarded = [];
     protected $dates = ['date'];
     #protected $dateFormat = 'd.m.Y H:i:s';

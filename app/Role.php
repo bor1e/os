@@ -6,8 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Role extends Model
 {
+    use RecordsActivity; //new role assigned
   protected $guarded = [];
- 
+
     /**
    * A role may be given various permissions.
    *
